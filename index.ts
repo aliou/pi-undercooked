@@ -11,13 +11,11 @@ export default function (pi: ExtensionAPI) {
     name: "cool_tool",
     label: "Cool Tool",
     description: "A cool tool that does cool things",
-    parameters: Type.Object({
-      message: Type.String({ description: "Message to echo" }),
-    }),
+    parameters: Type.Object({}),
     // 0.50.x signature: (toolCallId, params, onUpdate, ctx, signal)
     async execute(
       _toolCallId: string,
-      params: { message: string },
+      _params: Record<string, never>,
       onUpdate: (result: { content: { type: "text"; text: string }[] }) => void,
       _ctx: ExtensionContext,
       _signal?: AbortSignal,
@@ -27,18 +25,12 @@ export default function (pi: ExtensionAPI) {
       onUpdate({ content: [{ type: "text", text: "Almost done being cool..." }] });
       await new Promise((r) => setTimeout(r, 500));
       return {
-        content: [{ type: "text" as const, text: `Cool: ${params.message}` }],
+        content: [{ type: "text" as const, text: "Cool stuff done!" }],
         details: {},
       };
     },
-    renderCall(args: { message: string }, theme) {
-      return new Text(
-        theme.fg("toolTitle", theme.bold("cool_tool")) +
-          " " +
-          theme.fg("muted", args.message),
-        0,
-        0,
-      );
+    renderCall(_args: Record<string, never>, theme) {
+      return new Text(theme.fg("toolTitle", theme.bold("cool_tool")), 0, 0);
     },
   });
 
