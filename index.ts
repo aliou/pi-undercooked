@@ -12,17 +12,17 @@ export default function (pi: ExtensionAPI) {
     label: "Cool Tool",
     description: "A cool tool that does cool things",
     parameters: Type.Object({}),
-    // 0.50.x signature: (toolCallId, params, onUpdate, ctx, signal)
+    // 0.51.0 signature: (toolCallId, params, signal, onUpdate, ctx)
     async execute(
       _toolCallId: string,
       _params: Record<string, never>,
-      onUpdate: (result: { content: { type: "text"; text: string }[] }) => void,
+      _signal: AbortSignal | undefined,
+      onUpdate: ((result: { content: { type: "text"; text: string }[] }) => void) | undefined,
       _ctx: ExtensionContext,
-      _signal?: AbortSignal,
     ) {
-      onUpdate({ content: [{ type: "text", text: "Thinking coolly..." }] });
+      onUpdate?.({ content: [{ type: "text", text: "Thinking coolly..." }] });
       await new Promise((r) => setTimeout(r, 500));
-      onUpdate({ content: [{ type: "text", text: "Almost done being cool..." }] });
+      onUpdate?.({ content: [{ type: "text", text: "Almost done being cool..." }] });
       await new Promise((r) => setTimeout(r, 500));
       return {
         content: [{ type: "text" as const, text: "Cool stuff done!" }],

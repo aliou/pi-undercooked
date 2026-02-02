@@ -8,8 +8,8 @@
     "extensions": ["./index.ts"]
   },
   "devDependencies": {
-    "@mariozechner/pi-coding-agent": "0.50.0",
-    "@mariozechner/pi-tui": "0.50.0",
+    "@mariozechner/pi-coding-agent": "0.51.0",
+    "@mariozechner/pi-tui": "0.51.0",
     "@sinclair/typebox": "^0.34.41"
   }
 }
