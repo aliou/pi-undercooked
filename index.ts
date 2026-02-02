@@ -18,10 +18,14 @@ export default function (pi: ExtensionAPI) {
     async execute(
       _toolCallId: string,
       params: { message: string },
-      _onUpdate: unknown,
+      onUpdate: (result: { content: { type: "text"; text: string }[] }) => void,
       _ctx: ExtensionContext,
       _signal?: AbortSignal,
     ) {
+      onUpdate({ content: [{ type: "text", text: "Thinking coolly..." }] });
+      await new Promise((r) => setTimeout(r, 500));
+      onUpdate({ content: [{ type: "text", text: "Almost done being cool..." }] });
+      await new Promise((r) => setTimeout(r, 500));
       return {
         content: [{ type: "text" as const, text: `Cool: ${params.message}` }],
         details: {},
