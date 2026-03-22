@@ -1,4 +1,5 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+import { abortReviewListenersForPiSession } from "../utils/review-listener";
 import { getTrackedSessionsForPiSession } from "../utils/sessions";
 
 /**
@@ -7,8 +8,9 @@ import { getTrackedSessionsForPiSession } from "../utils/sessions";
 export function setupCleanupHook(pi: ExtensionAPI): void {
   pi.on("session_shutdown", async (_event, ctx) => {
     const piSessionId = ctx.sessionManager.getSessionId();
-    const sessions = getTrackedSessionsForPiSession(piSessionId, ctx.cwd);
+    abortReviewListenersForPiSession(piSessionId);
 
+    const sessions = getTrackedSessionsForPiSession(piSessionId, ctx.cwd);
     for (const session of sessions) {
       const args = ["stop", ...session.files];
       try {

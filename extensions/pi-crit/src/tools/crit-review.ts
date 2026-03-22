@@ -16,6 +16,7 @@ import type {
 import { Container, Text } from "@mariozechner/pi-tui";
 import { type Static, Type } from "@sinclair/typebox";
 import { configLoader } from "../config";
+import { startReviewListener } from "../utils/review-listener";
 import { getActiveSession, trackSession } from "../utils/sessions";
 
 const parameters = Type.Object({
@@ -214,6 +215,15 @@ export function registerReviewTool(pi: ExtensionAPI): void {
         (await readPortFromSessionFile(sessionId)) ||
         (await waitForPortFromLog(stderrLog));
       const url = port ? `http://localhost:${port}` : undefined;
+
+      startReviewListener({
+        pi,
+        piSessionId,
+        cwd: ctx.cwd,
+        critSessionId: sessionId,
+        port,
+        url,
+      });
 
       const target = effectiveFiles?.length
         ? `${effectiveFiles.length} file${effectiveFiles.length === 1 ? "" : "s"}`
