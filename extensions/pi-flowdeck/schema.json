@@ -1,0 +1,28 @@
+{
+  "$ref": "#/definitions/FlowdeckPiExtensionConfig",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "FlowdeckPiExtensionConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "defaultTimeoutSeconds": {
+          "description": "Default timeout in seconds for FlowDeck tools.",
+          "type": "number"
+        },
+        "enabled": {
+          "description": "Enable or disable the extension.",
+          "type": "boolean"
+        },
+        "flowdeckExecutable": {
+          "description": "FlowDeck executable name (from PATH) or custom relative/absolute path.",
+          "type": "string"
+        },
+        "systemPromptGuidance": {
+          "description": "Inject FlowDeck usage guidance into the system prompt.",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    }
+  }
+}

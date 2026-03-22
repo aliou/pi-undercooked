@@ -1,0 +1,10 @@
+{
+  "name": "@aliou/pi-undercooked-poc-linkup-company-research",
+  "private": true,
+  "type": "module",
+  "pi": {
+    "extensions": [
+      "./src/index.ts"
+    ]
+  }
+}

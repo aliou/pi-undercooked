@@ -1,0 +1,26 @@
+name: PiXcodeSmokeApp
+options:
+  minimumXcodeGenVersion: 2.40.0
+  createIntermediateGroups: true
+settings:
+  base:
+    PRODUCT_BUNDLE_IDENTIFIER: me.aliou.PiXcodeSmokeApp
+    IPHONEOS_DEPLOYMENT_TARGET: 26.2
+    SWIFT_VERSION: 6.0
+    TARGETED_DEVICE_FAMILY: 1
+    LD: clang
+configs:
+  Debug: debug
+  Release: release
+targets:
+  PiXcodeSmokeApp:
+    type: application
+    platform: iOS
+    deploymentTarget: "26.2"
+    sources:
+      - Sources
+    settings:
+      base:
+        INFOPLIST_FILE: Sources/Info.plist
+    scheme:
+      testTargets: []

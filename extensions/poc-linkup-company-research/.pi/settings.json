@@ -1,0 +1,12 @@
+{
+  "skills": [
+    "/Users/alioudiallo/code/src/378labs.dev/skills/skills/shared/biome",
+    "/Users/alioudiallo/code/src/378labs.dev/skills/skills/shared/changesets",
+    "/Users/alioudiallo/code/src/378labs.dev/skills/skills/shared/github-actions",
+    "/Users/alioudiallo/code/src/378labs.dev/skills/skills/shared/npm-publish",
+    "/Users/alioudiallo/code/src/378labs.dev/skills/skills/shared/typescript-project",
+    "/Users/alioudiallo/code/src/378labs.dev/skills/skills/shared/vitest",
+    "/Users/alioudiallo/code/src/378labs.dev/skills/skills/shared/zod-v4"
+  ],
+  "packages": ["/Users/alioudiallo/code/src/378labs.dev/skills/packages/node"]
+}

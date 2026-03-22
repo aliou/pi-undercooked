@@ -1,0 +1,10 @@
+{
+  "name": "@aliou/pi-undercooked-pi-excel",
+  "private": true,
+  "type": "module",
+  "pi": {
+    "extensions": [
+      "./src/index.ts"
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "@aliou/pi-undercooked-poc-incognito",
+  "private": true,
+  "type": "module",
+  "pi": {
+    "extensions": [
+      "./index.ts"
+    ]
+  }
+}

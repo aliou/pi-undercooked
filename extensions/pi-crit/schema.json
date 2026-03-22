@@ -1,0 +1,33 @@
+{
+  "$ref": "#/definitions/CritConfig",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "CritConfig": {
+      "additionalProperties": false,
+      "description": "Raw config shape (what gets saved to disk). All fields optional -- only overrides are stored.\n\nJSDoc comments on fields become `description` in the generated JSON Schema. Run `pnpm gen:schema` after changing this interface.",
+      "properties": {
+        "author": {
+          "description": "Default author name for comments. Supports {model} placeholder for dynamic model ID.",
+          "type": "string"
+        },
+        "enabled": {
+          "description": "Enable or disable the extension.",
+          "type": "boolean"
+        },
+        "outputDir": {
+          "description": "Custom output directory for .crit.json files.",
+          "type": "string"
+        },
+        "shareUrl": {
+          "description": "Custom share service URL. Set to empty string to disable sharing.",
+          "type": "string"
+        },
+        "systemPromptGuidance": {
+          "description": "Inject tool guidance into the system prompt each turn.",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    }
+  }
+}

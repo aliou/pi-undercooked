@@ -1,0 +1,47 @@
+{
+  "branch": "main",
+  "base_ref": "95539f16a637f2a1613f43ef7de57aa84277f6b9",
+  "updated_at": "2026-03-21T18:52:35Z",
+  "review_round": 1,
+  "files": {
+    "src/tools/crit-review.ts": {
+      "status": "modified",
+      "file_hash": "",
+      "comments": [
+        {
+          "id": "c1",
+          "start_line": 195,
+          "end_line": 195,
+          "body": "Launching via `bash -lc` + backgrounding is fragile and bypasses crit's own session coordination semantics. Consider adding a dedicated non-blocking command/tool path in the extension runtime (or a process manager hook) so we can avoid shell-escaping + pid parsing complexity here.",
+          "author": "Pi (gpt-5.3-codex)",
+          "created_at": "2026-03-21T18:52:19Z",
+          "updated_at": "2026-03-21T18:52:19Z"
+        },
+        {
+          "id": "c2",
+          "start_line": 152,
+          "end_line": 152,
+          "body": "In `mode=files`, implicit fallback to the active files session can be surprising after context switches. Consider printing the resolved file list in the success message so scope is explicit before review starts.",
+          "author": "Pi (gpt-5.3-codex)",
+          "created_at": "2026-03-21T18:52:27Z",
+          "updated_at": "2026-03-21T18:52:27Z"
+        }
+      ]
+    },
+    "src/utils/sessions.ts": {
+      "status": "modified",
+      "file_hash": "",
+      "comments": [
+        {
+          "id": "c3",
+          "start_line": 80,
+          "end_line": 80,
+          "body": "Session tracking is in-memory only. After Pi restart, ownership metadata is lost so cleanup cannot target earlier sessions from this Pi session. If acceptable, document this; otherwise persist minimal session metadata.",
+          "author": "Pi (gpt-5.3-codex)",
+          "created_at": "2026-03-21T18:52:35Z",
+          "updated_at": "2026-03-21T18:52:35Z"
+        }
+      ]
+    }
+  }
+}

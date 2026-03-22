@@ -1,0 +1,83 @@
+{
+  "name": "@aliou/pi-undercooked",
+  "private": true,
+  "type": "module",
+  "keywords": [
+    "pi-package"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aliou/pi-undercooked"
+  },
+  "pi": {
+    "extensions": [
+      "extensions/pi-crit/src/index.ts",
+      "extensions/pi-excel/src/index.ts",
+      "extensions/pi-flowdeck/src/index.ts",
+      "extensions/pi-output-style/src/index.ts",
+      "extensions/pi-xcode/src/index.ts",
+      "extensions/pi-apple-fm-provider/src/index.ts",
+      "extensions/poc-incognito/index.ts",
+      "extensions/poc-linkup-company-research/src/index.ts",
+      "extensions/poc-playwriter/index.ts",
+      "extensions/poc-proof-bridge/index.ts"
+    ]
+  },
+  "dependencies": {
+    "@aliou/pi-utils-settings": "^0.9.0",
+    "@aliou/pi-utils-ui": "^0.1.0",
+    "@aliou/sh": "^0.1.0",
+    "@e965/xlsx": "^0.20.3",
+    "gray-matter": "^4.0.3",
+    "playwriter": "^0.0.63",
+    "tsfm-sdk": "^0.3.1"
+  },
+  "peerDependencies": {
+    "@mariozechner/pi-coding-agent": ">=0.61.0",
+    "@mariozechner/pi-ai": ">=0.61.0",
+    "@mariozechner/pi-tui": ">=0.61.0",
+    "@sinclair/typebox": ">=0.34.0"
+  },
+  "peerDependenciesMeta": {
+    "@mariozechner/pi-coding-agent": {
+      "optional": true
+    },
+    "@mariozechner/pi-ai": {
+      "optional": true
+    },
+    "@mariozechner/pi-tui": {
+      "optional": true
+    },
+    "@sinclair/typebox": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@aliou/biome-plugins": "^0.3.2",
+    "@biomejs/biome": "^2.4.2",
+    "@mariozechner/pi-ai": "0.61.0",
+    "@mariozechner/pi-coding-agent": "0.61.0",
+    "@mariozechner/pi-tui": "0.61.0",
+    "@sinclair/typebox": "^0.34.48",
+    "@types/node": "^25.0.10",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
+  },
+  "pnpm": {
+    "overrides": {
+      "@mariozechner/pi-ai": "$@mariozechner/pi-coding-agent",
+      "@mariozechner/pi-tui": "$@mariozechner/pi-coding-agent"
+    },
+    "onlyBuiltDependencies": [
+      "@aliou/sh",
+      "koffi",
+      "protobufjs"
+    ]
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check",
+    "format": "biome check --write"
+  },
+  "packageManager": "pnpm@10.26.1"
+}
