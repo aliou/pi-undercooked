@@ -1,0 +1,8 @@
+{
+  "name": "@aliou/pi-undercooked-pi-init",
+  "private": true,
+  "type": "module",
+  "pi": {
+    "extensions": ["./src/index.ts"]
+  }
+}

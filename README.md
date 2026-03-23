@@ -13,6 +13,7 @@ A collection of Pi extensions that are proof-of-concept, not yet usable, or one-
 | `pi-output-style` | Configurable output style presets |
 | `pi-xcode` | Xcode project, build, and simulator management |
 | `pi-osc-progress` | Terminal progress bar via OSC 9;4 (iTerm2, Ghostty) |
+| `pi-init` | Interactive Pi bootstrap: AGENTS.md, .agents/skills, hooks extension, and `init_questionnaire` tool |
 | `poc-incognito` | Save sessions to a custom directory |
 | `poc-linkup-company-research` | Company research via Linkup API |
 | `poc-playwriter` | Browser automation via Playwriter |

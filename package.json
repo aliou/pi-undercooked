@@ -21,7 +21,8 @@
       "extensions/poc-linkup-company-research/src/index.ts",
       "extensions/poc-playwriter/index.ts",
       "extensions/poc-proof-bridge/index.ts",
-      "extensions/pi-osc-progress/index.ts"
+      "extensions/pi-osc-progress/index.ts",
+      "extensions/pi-init/src/index.ts"
     ]
   },
   "dependencies": {
