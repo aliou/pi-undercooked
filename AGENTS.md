@@ -27,6 +27,8 @@ Runtime dependencies go in the root `package.json`. Peer dependencies (anything 
 
 Also register the new entry point in the root `package.json` under `pi.extensions` so that installing the whole repo picks it up.
 
+When adding a new extension, also add it to the `README.md` extensions table and update this `AGENTS.md` file if the extension introduces any new patterns or conventions.
+
 ## Reference material
 
 Use existing extensions in this repo as inspiration for structure and patterns. For the full extension development guide, load the `pi-extension` skill from the `pi-dev-kit` package. Set it up in your `.pi/settings.json`:

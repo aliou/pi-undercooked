@@ -12,6 +12,7 @@ A collection of Pi extensions that are proof-of-concept, not yet usable, or one-
 | `pi-flowdeck` | iOS development tools via Flowdeck |
 | `pi-output-style` | Configurable output style presets |
 | `pi-xcode` | Xcode project, build, and simulator management |
+| `pi-osc-progress` | Terminal progress bar via OSC 9;4 (iTerm2, Ghostty) |
 | `poc-incognito` | Save sessions to a custom directory |
 | `poc-linkup-company-research` | Company research via Linkup API |
 | `poc-playwriter` | Browser automation via Playwriter |
