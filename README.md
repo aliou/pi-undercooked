@@ -1,6 +1,6 @@
 # pi-undercooked
 
-A collection of Pi extensions that are proof-of-concept, not yet usable, or one-off experiments. These extensions might be useful for reference but are probably out of date. They live here mainly so they can be required and loaded individually when needed.
+A collection of Pi extensions and integrations that are proof-of-concept, not yet usable, or one-off experiments. These projects might be useful for reference but are probably out of date. They live here mainly so they can be required, loaded, or run individually when needed.
 
 ## Extensions
 
@@ -20,6 +20,16 @@ A collection of Pi extensions that are proof-of-concept, not yet usable, or one-
 | `poc-proof-bridge` | Local collaboration via Proof bridge |
 
 Each extension has its own `package.json` with a `pi` key pointing to its entry file, so they can be loaded individually.
+
+## Integrations
+
+| Integration | Description |
+|---|---|
+| `chrome` | Chrome sidepanel integration plus native host bridge for browser automation and sidepanel chat |
+| `linear` | Hono bridge from Linear Agent Sessions to in-process Pi SDK sessions |
+| `neovim` | Bidirectional Neovim integration for Pi |
+
+Integrations are not regular Pi extension packages. They may include bundled Pi extensions, editor plugins, browser extensions, native hosts, or standalone bridge services.
 
 ## Development
 

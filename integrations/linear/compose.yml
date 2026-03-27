@@ -1,0 +1,60 @@
+services:
+  linear-bridge:
+    build: .
+    container_name: pi-linear-bridge
+    restart: unless-stopped
+    ports:
+      - "${PORT:-3000}:3000"
+    volumes:
+      - linear-data:/app/data
+    env_file:
+      - .env
+    environment:
+      - PORT=3000
+      - HOST=0.0.0.0
+      - DB_PATH=/app/data/linear-bridge.db
+
+  tailscale-config:
+    image: ghcr.io/aliou/alpine-jq:latest
+    container_name: pi-linear-bridge-tailscale-config
+    profiles: [tailscale]
+    entrypoint: ["/bin/sh", "-c"]
+    environment:
+      - TS_CERT_DOMAIN=${TS_CERT_DOMAIN}
+    volumes:
+      - tailscale-config:/config
+    command:
+      - |
+        printf '{"TCP":{"443":{"HTTPS":true}},"Web":{"%s:443":{"Handlers":{"/":{"Proxy":"http://127.0.0.1:3000"}}}},"AllowFunnel":{"%s:443":true}}\n' "${TS_CERT_DOMAIN}" "${TS_CERT_DOMAIN}" > /config/serve.json
+    restart: "no"
+
+  tailscale-funnel:
+    image: tailscale/tailscale:latest
+    container_name: pi-linear-bridge-funnel
+    profiles: [tailscale]
+    restart: unless-stopped
+    network_mode: service:linear-bridge
+    depends_on:
+      linear-bridge:
+        condition: service_started
+      tailscale-config:
+        condition: service_completed_successfully
+    env_file:
+      - .env
+    environment:
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_USERSPACE=true
+      - TS_HOSTNAME=${TS_HOSTNAME:-pi-linear-bridge}
+      - TS_AUTH_ONCE=true
+      - TS_SERVE_CONFIG=/config/serve.json
+    volumes:
+      - tailscale-state:/var/lib/tailscale
+      - tailscale-config:/config:ro
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+
+volumes:
+  linear-data:
+  tailscale-state:
+  tailscale-config:

@@ -1,6 +1,6 @@
 # pi-undercooked
 
-Repository for experimental, proof-of-concept, or one-off Pi extensions. Nothing here is considered stable or published.
+Repository for experimental, proof-of-concept, or one-off Pi extensions and integrations. Nothing here is considered stable or published.
 
 ## Adding a new extension
 
@@ -28,6 +28,14 @@ Runtime dependencies go in the root `package.json`. Peer dependencies (anything 
 Also register the new entry point in the root `package.json` under `pi.extensions` so that installing the whole repo picks it up.
 
 When adding a new extension, also add it to the `README.md` extensions table and update this `AGENTS.md` file if the extension introduces any new patterns or conventions.
+
+## Adding a new integration
+
+Put it in the `integrations/` directory.
+
+Integrations are broader than normal Pi extensions. They may be editor plugins, browser extensions, native host bridges, or standalone services that bundle or talk to Pi.
+
+Document each integration in the root `README.md` integrations table. Add project-specific notes here when an integration introduces repo-wide conventions or operational requirements.
 
 ## Extension-specific notes
 
