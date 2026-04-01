@@ -22,7 +22,8 @@
       "extensions/poc-playwriter/index.ts",
       "extensions/poc-proof-bridge/index.ts",
       "extensions/pi-osc-progress/index.ts",
-      "extensions/pi-init/src/index.ts"
+      "extensions/pi-init/src/index.ts",
+      "extensions/pi-the-dumb-zone/index.ts"
     ]
   },
   "dependencies": {
@@ -35,6 +36,7 @@
     "tsfm-sdk": "^0.3.1"
   },
   "peerDependencies": {
+    "@mariozechner/pi-agent-core": ">=0.61.0",
     "@mariozechner/pi-coding-agent": ">=0.61.0",
     "@mariozechner/pi-ai": ">=0.61.0",
     "@mariozechner/pi-tui": ">=0.61.0",
@@ -42,6 +44,9 @@
   },
   "peerDependenciesMeta": {
     "@mariozechner/pi-coding-agent": {
+      "optional": true
+    },
+    "@mariozechner/pi-agent-core": {
       "optional": true
     },
     "@mariozechner/pi-ai": {
@@ -57,6 +62,7 @@
   "devDependencies": {
     "@aliou/biome-plugins": "^0.3.2",
     "@biomejs/biome": "^2.4.2",
+    "@mariozechner/pi-agent-core": "0.61.0",
     "@mariozechner/pi-ai": "0.61.0",
     "@mariozechner/pi-coding-agent": "0.61.0",
     "@mariozechner/pi-tui": "0.61.0",
@@ -67,6 +73,7 @@
   },
   "pnpm": {
     "overrides": {
+      "@mariozechner/pi-agent-core": "$@mariozechner/pi-coding-agent",
       "@mariozechner/pi-ai": "$@mariozechner/pi-coding-agent",
       "@mariozechner/pi-tui": "$@mariozechner/pi-coding-agent"
     },

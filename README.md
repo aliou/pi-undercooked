@@ -14,6 +14,7 @@ A collection of Pi extensions and integrations that are proof-of-concept, not ye
 | `pi-xcode` | Xcode project, build, and simulator management |
 | `pi-osc-progress` | Terminal progress bar via OSC 9;4 (iTerm2, Ghostty) |
 | `pi-init` | Interactive Pi bootstrap: AGENTS.md, .agents/skills, hooks extension, and `init_questionnaire` tool |
+| `pi-the-dumb-zone` | Detects when an AI session is degrading and shows a warning overlay |
 | `poc-incognito` | Save sessions to a custom directory |
 | `poc-linkup-company-research` | Company research via Linkup API |
 | `poc-playwriter` | Browser automation via Playwriter |
