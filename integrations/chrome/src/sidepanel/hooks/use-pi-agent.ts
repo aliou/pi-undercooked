@@ -624,6 +624,10 @@ export function usePiAgent() {
             ...prev,
             isStreaming: false,
             activeDialog: null,
+            // Clear browser navigation status on agent end.
+            statusEntries: prev.statusEntries.filter(
+              (e) => e.key !== "browser.navigation",
+            ),
           }));
           if (pendingStatsRequestRef.current) {
             pendingStatsRequestRef.current = false;
@@ -966,6 +970,29 @@ export function usePiAgent() {
           break;
         }
 
+        case "browser_navigation_context": {
+          const navEvent = event;
+          const host = (() => {
+            try {
+              return new URL(navEvent.url).hostname;
+            } catch {
+              return navEvent.url;
+            }
+          })();
+          const text = navEvent.title ? `On ${navEvent.title}` : `On ${host}`;
+          setState((prev) => {
+            const key = "browser.navigation";
+            const exists = prev.statusEntries.find((e) => e.key === key);
+            const entries = exists
+              ? prev.statusEntries.map((e) =>
+                  e.key === key ? { ...e, text } : e,
+                )
+              : [...prev.statusEntries, { key, text }];
+            return { ...prev, statusEntries: entries };
+          });
+          break;
+        }
+
         case "response":
           handleResponse(event);
           break;
@@ -976,6 +1003,17 @@ export function usePiAgent() {
     },
     [handleResponse, requestSessionStats, send, updateCurrentAssistant],
   );
+
+  // Global Escape key aborts streaming.
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && stateRef.current.isStreaming) {
+        send({ type: "abort" });
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [send]);
 
   useEffect(() => {
     let reconnectTimer: number | null = null;

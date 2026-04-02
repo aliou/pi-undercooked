@@ -37,6 +37,11 @@ export interface PageFindParams {
   limit?: number;
 }
 
+export interface PageEvalParams {
+  code: string;
+  args?: unknown[];
+}
+
 export type PageCommand =
   | { type: "PAGE_CLICK"; params: PageClickParams }
   | { type: "PAGE_TYPE"; params: PageTypeParams }
@@ -47,7 +52,8 @@ export type PageCommand =
   | { type: "PAGE_GET_TEXT"; params?: Record<string, never> }
   | { type: "PAGE_READ_PAGE"; params?: Record<string, never> }
   | { type: "PAGE_FIND"; params: PageFindParams }
-  | { type: "PAGE_SET_INDICATOR"; params: { active: boolean } };
+  | { type: "PAGE_SET_INDICATOR"; params: { active: boolean } }
+  | { type: "PAGE_EVAL"; params: PageEvalParams };
 
 export function isPageCommand(value: unknown): value is PageCommand {
   if (!value || typeof value !== "object") return false;
@@ -62,6 +68,7 @@ export function isPageCommand(value: unknown): value is PageCommand {
     candidate.type === "PAGE_GET_TEXT" ||
     candidate.type === "PAGE_READ_PAGE" ||
     candidate.type === "PAGE_FIND" ||
-    candidate.type === "PAGE_SET_INDICATOR"
+    candidate.type === "PAGE_SET_INDICATOR" ||
+    candidate.type === "PAGE_EVAL"
   );
 }

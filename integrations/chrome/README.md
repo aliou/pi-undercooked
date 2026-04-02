@@ -23,6 +23,7 @@ Or inside `integrations/chrome`:
 ```bash
 pnpm dev
 pnpm build
+pnpm build:dev
 ```
 
 ## Install + run locally
@@ -33,16 +34,20 @@ pnpm build
 pnpm chrome:build
 ```
 
-2. Load extension in Chrome:
-   - Open `chrome://extensions`
+2. Load extension:
+   - Production build output: `integrations/chrome/dist-prod`
+   - Dev build output: `integrations/chrome/dist-dev` (name: `Pi Chrome (dev)` and dev-badged icon)
+   - Open your browser extensions page (`chrome://extensions` or `helium://extensions`)
    - Enable Developer mode
-   - Load unpacked extension from `integrations/chrome/dist`
+   - Load unpacked extension from the build folder you want
 
 3. Install native host manifest (required for Pi bridge):
 
 ```bash
 cd integrations/chrome/native-host
 ./install-host.sh <your-extension-id> --browser chrome
+# or
+./install-host.sh <your-extension-id> --browser helium
 ```
 
 You can find the extension ID on the Chrome extensions page after loading unpacked.

@@ -4,6 +4,7 @@ import {
 } from "@/common/browser-rpc";
 import type {
   PageClickParams,
+  PageEvalParams,
   PageFindParams,
   PageFormInputParams,
   PageHoverParams,
@@ -22,6 +23,61 @@ import { sendToContentScript } from "./tab-manager";
 export type BrowserMethodParams = Record<string, unknown>;
 
 type MethodHandler = (params: BrowserMethodParams) => Promise<unknown>;
+
+/** Tabs currently being navigated by a browser.navigate tool call – suppress context events for these. */
+export const toolNavigatingTabs = new Set<number>();
+
+export interface NavigationResult {
+  finalUrl: string;
+  title: string;
+  favicon?: string;
+  tabId: number;
+  windowId: number;
+}
+
+function waitForNavigation(
+  tabId: number,
+  timeoutMs = 15_000,
+): Promise<NavigationResult> {
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => {
+      chrome.webNavigation.onDOMContentLoaded.removeListener(listener);
+      reject(new Error("Navigation timeout"));
+    }, timeoutMs);
+
+    const listener = (
+      details: chrome.webNavigation.WebNavigationFramedCallbackDetails,
+    ) => {
+      if (details.tabId !== tabId || details.frameId !== 0) return;
+      clearTimeout(timer);
+      chrome.webNavigation.onDOMContentLoaded.removeListener(listener);
+
+      chrome.tabs
+        .get(tabId)
+        .then((tab) => {
+          resolve({
+            finalUrl: tab.url ?? details.url,
+            title: tab.title ?? "",
+            favicon: tab.favIconUrl,
+            tabId: tab.id ?? tabId,
+            windowId: tab.windowId,
+          });
+        })
+        .catch(reject);
+    };
+
+    chrome.webNavigation.onDOMContentLoaded.addListener(listener);
+  });
+}
+
+function asPageEvalParams(params: BrowserMethodParams): PageEvalParams {
+  const code = asRequiredString(params.code, "code");
+  const args = params.args;
+  if (args !== undefined && !Array.isArray(args)) {
+    throw new Error("args must be an array");
+  }
+  return { code, args: Array.isArray(args) ? args : undefined };
+}
 
 const MAX_SCREENSHOT_BYTES = 900 * 1024;
 
@@ -509,6 +565,58 @@ const methodHandlers: Record<BrowserRpcMethod, MethodHandler> = {
   "sessions.switch": async (params) => {
     const sessionPath = asRequiredString(params.sessionPath, "sessionPath");
     return { sessionPath };
+  },
+  "browser.navigate": async (params) => {
+    const url = asRequiredString(params.url, "url");
+    const newTab = params.newTab === true;
+    const requestedTabId = asTabId(params);
+
+    let targetTabId: number;
+
+    if (newTab) {
+      const tab = await chrome.tabs.create({ url });
+      if (typeof tab.id !== "number") {
+        throw new Error("Failed to create tab");
+      }
+      targetTabId = tab.id;
+    } else {
+      const resolved = requestedTabId ?? (await getCurrentTabId());
+      await chrome.tabs.update(resolved, { url });
+      targetTabId = resolved;
+    }
+
+    toolNavigatingTabs.add(targetTabId);
+    try {
+      const result = await waitForNavigation(targetTabId);
+      return result;
+    } finally {
+      toolNavigatingTabs.delete(targetTabId);
+    }
+  },
+  "browser.list_tabs": async () => {
+    const tabs = await chrome.tabs.query({});
+    return tabs.map((tab) => ({
+      id: tab.id,
+      title: tab.title,
+      url: tab.url,
+      active: tab.active,
+      windowId: tab.windowId,
+    }));
+  },
+  "browser.switch_tab": async (params) => {
+    const tabId = asTabId(params);
+    if (tabId === undefined) {
+      throw new Error("browser.switch_tab requires numeric tabId");
+    }
+    const tab = await chrome.tabs.update(tabId, { active: true });
+    return toTabSummary(tab);
+  },
+  "page.eval": async (params) => {
+    const tabId = await resolveTargetTabId(params);
+    return sendToContentScript(tabId, {
+      type: "PAGE_EVAL",
+      params: asPageEvalParams(withoutTabId(params)),
+    });
   },
 };
 

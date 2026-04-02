@@ -19,11 +19,15 @@ export const BROWSER_RPC_METHODS = [
   "page.read",
   "page.find",
   "page.screenshot",
+  "page.eval",
   "debug.read_console_messages",
   "debug.read_network_requests",
   "debug.export_network_requests",
   "sessions.list",
   "sessions.switch",
+  "browser.navigate",
+  "browser.list_tabs",
+  "browser.switch_tab",
 ] as const;
 
 export type BrowserRpcMethod = (typeof BROWSER_RPC_METHODS)[number];

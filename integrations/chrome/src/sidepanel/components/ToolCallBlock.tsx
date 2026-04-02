@@ -20,6 +20,91 @@ function tryParseJson(text: string): unknown {
   return text;
 }
 
+interface NavResult {
+  finalUrl: string;
+  title?: string;
+  tabId?: number;
+}
+
+interface ScreenshotResult {
+  data: string;
+  format: "jpeg" | "png";
+}
+
+function asNavResult(v: unknown): NavResult | null {
+  if (!v || typeof v !== "object") return null;
+  const obj = v as Record<string, unknown>;
+  if (typeof obj.finalUrl !== "string") return null;
+  return {
+    finalUrl: obj.finalUrl,
+    title: typeof obj.title === "string" ? obj.title : undefined,
+    tabId: typeof obj.tabId === "number" ? obj.tabId : undefined,
+  };
+}
+
+function asScreenshotResult(v: unknown): ScreenshotResult | null {
+  if (!v || typeof v !== "object") return null;
+  const obj = v as Record<string, unknown>;
+  if (typeof obj.data !== "string" || !obj.data) return null;
+  if (obj.format !== "jpeg" && obj.format !== "png") return null;
+  return { data: obj.data, format: obj.format };
+}
+
+function NavCard({ nav }: { nav: NavResult }) {
+  let hostname = nav.finalUrl;
+  try {
+    hostname = new URL(nav.finalUrl).hostname;
+  } catch {
+    // keep raw url
+  }
+  return (
+    <div className="px-2.5 py-2 border-t border-zinc-200 dark:border-zinc-700">
+      <div className="mb-1 text-[11px] font-medium text-zinc-600 dark:text-zinc-400">
+        Navigation result
+      </div>
+      <div className="rounded border border-zinc-200 bg-zinc-50 p-2 text-xs dark:border-zinc-700 dark:bg-zinc-800">
+        {nav.title && (
+          <div className="font-medium text-zinc-900 dark:text-zinc-100 truncate">
+            {nav.title}
+          </div>
+        )}
+        <div className="text-zinc-500 dark:text-zinc-400 truncate">
+          {hostname}
+        </div>
+        <a
+          href={nav.finalUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="text-blue-600 dark:text-blue-400 truncate block hover:underline"
+        >
+          {nav.finalUrl}
+        </a>
+        {nav.tabId !== undefined && (
+          <div className="text-zinc-400 dark:text-zinc-500 text-[10px] mt-0.5">
+            Tab {nav.tabId}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function ImagePreview({ screenshot }: { screenshot: ScreenshotResult }) {
+  const src = `data:image/${screenshot.format};base64,${screenshot.data}`;
+  return (
+    <div className="px-2.5 py-2 border-t border-zinc-200 dark:border-zinc-700">
+      <div className="mb-1 text-[11px] font-medium text-zinc-600 dark:text-zinc-400">
+        Screenshot
+      </div>
+      <img
+        src={src}
+        alt="Screenshot"
+        className="rounded border border-zinc-200 dark:border-zinc-700 max-w-full"
+      />
+    </div>
+  );
+}
+
 function ResultBody({
   label,
   text,
@@ -31,19 +116,36 @@ function ResultBody({
 }) {
   const [showAll, setShowAll] = useState(false);
 
+  const parsed = useMemo(() => tryParseJson(text), [text]);
+
+  const nav = useMemo(() => asNavResult(parsed), [parsed]);
+  const screenshot = useMemo(() => asScreenshotResult(parsed), [parsed]);
+
   const display = useMemo(() => {
-    const parsed = tryParseJson(text);
-    return typeof parsed === "string" ? parsed : JSON.stringify(parsed, null, 2);
-  }, [text]);
+    return typeof parsed === "string"
+      ? parsed
+      : JSON.stringify(parsed, null, 2);
+  }, [parsed]);
 
   const lines = useMemo(() => display.split("\n"), [display]);
   const isLong = lines.length > PREVIEW_LINES;
-  const visible = isLong && !showAll ? lines.slice(0, PREVIEW_LINES).join("\n") : display;
+  const visible =
+    isLong && !showAll ? lines.slice(0, PREVIEW_LINES).join("\n") : display;
+
+  if (nav) {
+    return <NavCard nav={nav} />;
+  }
+
+  if (screenshot) {
+    return <ImagePreview screenshot={screenshot} />;
+  }
 
   return (
     <div className="px-2.5 py-2 border-t border-zinc-200 dark:border-zinc-700">
       <div className="mb-1 flex items-center justify-between gap-2">
-        <div className="text-[11px] font-medium text-zinc-600 dark:text-zinc-400">{label}</div>
+        <div className="text-[11px] font-medium text-zinc-600 dark:text-zinc-400">
+          {label}
+        </div>
         {isLong ? (
           <button
             type="button"
@@ -89,13 +191,17 @@ export function ToolCallBlock({ tool }: ToolCallBlockProps) {
         {statusEl}
         <span className="font-mono text-xs">{tool.toolName}</span>
         {tool.summary && (
-          <span className="ml-auto text-xs text-zinc-500 truncate dark:text-zinc-400">{tool.summary}</span>
+          <span className="ml-auto text-xs text-zinc-500 truncate dark:text-zinc-400">
+            {tool.summary}
+          </span>
         )}
       </summary>
 
       <div className="mt-1 rounded-md border border-zinc-200 bg-white text-xs text-zinc-900 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100">
         <div className="px-2.5 py-2">
-          <div className="text-[11px] font-medium text-zinc-600 mb-1 dark:text-zinc-400">Arguments</div>
+          <div className="text-[11px] font-medium text-zinc-600 mb-1 dark:text-zinc-400">
+            Arguments
+          </div>
           <pre className="whitespace-pre-wrap break-words font-mono text-[11px]">
             {JSON.stringify(tool.args, null, 2)}
           </pre>
@@ -108,7 +214,11 @@ export function ToolCallBlock({ tool }: ToolCallBlockProps) {
         {tool.result && <ResultBody label="Output" text={tool.result} />}
 
         {tool.error && (
-          <ResultBody label="Error" text={tool.error} className="text-rose-600" />
+          <ResultBody
+            label="Error"
+            text={tool.error}
+            className="text-rose-600"
+          />
         )}
       </div>
     </details>

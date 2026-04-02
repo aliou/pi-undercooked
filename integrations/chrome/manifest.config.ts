@@ -6,11 +6,14 @@ export default defineManifest({
   name: "Pi Chrome",
   version: pkg.version,
   icons: {
-    48: "public/logo.png",
+    16: "images/icon-16.png",
+    48: "images/icon-48.png",
+    128: "images/icon-128.png",
   },
   action: {
     default_icon: {
-      48: "public/logo.png",
+      16: "images/action-light-16.png",
+      32: "images/action-light-32.png",
     },
   },
   commands: {
@@ -20,6 +23,13 @@ export default defineManifest({
         mac: "Command+E",
       },
       description: "Toggle Pi Chrome",
+    },
+    "toggle-sidepanel": {
+      suggested_key: {
+        default: "Ctrl+Shift+E",
+        mac: "Command+Shift+E",
+      },
+      description: "Toggle Pi Chrome sidepanel",
     },
   },
   permissions: [
@@ -32,6 +42,7 @@ export default defineManifest({
     "storage",
     "downloads",
     "offscreen",
+    "webNavigation",
   ],
   host_permissions: ["<all_urls>"],
   background: {

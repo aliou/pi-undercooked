@@ -147,4 +147,14 @@ export type RpcEvent =
       event: string;
       error: string;
     }
+  | {
+      type: "browser_navigation_context";
+      url: string;
+      title: string;
+      favIconUrl?: string;
+      tabId: number;
+      windowId: number;
+      reason: "url_changed" | "tab_activated";
+      at: number;
+    }
   | RpcResponse;

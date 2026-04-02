@@ -1,5 +1,9 @@
 import { InteractionEngine } from "./interaction-engine";
-import { isPageCommand, type PageCommand } from "./page-types";
+import {
+  isPageCommand,
+  type PageCommand,
+  type PageEvalParams,
+} from "./page-types";
 import { PageReader } from "./read-page";
 import { RefModel } from "./ref-model";
 
@@ -52,6 +56,35 @@ function setIndicator(active: boolean): void {
   document.documentElement.appendChild(container);
 }
 
+const NAV_PATTERN =
+  /\b(window\s*\.\s*location|location)\s*(\.\s*(href|assign|replace)\s*=|=(?!=)|\.\s*assign\s*\(|\.\s*replace\s*\()|\bhistory\s*\.\s*(back|forward|go)\s*\(/;
+
+async function evalInPage(params: PageEvalParams): Promise<unknown> {
+  const { code, args } = params;
+
+  if (typeof code !== "string" || !code.trim()) {
+    throw new Error("code must be a non-empty string");
+  }
+
+  if (args !== undefined && !Array.isArray(args)) {
+    throw new Error("args must be an array");
+  }
+
+  if (NAV_PATTERN.test(code)) {
+    throw new Error(
+      "Direct navigation patterns are not allowed in page.eval (window.location, location.assign/replace, history.back/forward/go)",
+    );
+  }
+
+  const safeArgs: unknown[] = Array.isArray(args) ? args : [];
+
+  const fn = new Function(...safeArgs.map((_, i) => `__arg${i}`), code);
+  const result: unknown = fn(...safeArgs);
+  const resolved: unknown = result instanceof Promise ? await result : result;
+
+  return JSON.parse(JSON.stringify(resolved === undefined ? null : resolved));
+}
+
 async function handlePageCommand(message: PageCommand): Promise<unknown> {
   switch (message.type) {
     case "PAGE_CLICK":
@@ -75,6 +108,8 @@ async function handlePageCommand(message: PageCommand): Promise<unknown> {
     case "PAGE_SET_INDICATOR":
       setIndicator(message.params.active);
       return { active: message.params.active };
+    case "PAGE_EVAL":
+      return evalInPage(message.params);
   }
 
   const exhaustive: never = message;

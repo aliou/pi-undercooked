@@ -4,8 +4,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
+    "generate:icons": "node scripts/generate-icons.mjs",
+    "dev": "pnpm run generate:icons && vite --mode development",
+    "build": "pnpm run generate:icons && tsc -b && vite build --mode production",
+    "build:dev": "pnpm run generate:icons && tsc -b && vite build --mode development",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -23,6 +25,7 @@
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react": "^5.1.0",
+    "sharp": "^0.34.5",
     "tailwindcss": "^4.2.1",
     "typescript": "~5.8.3",
     "vite": "^7.0.5",
