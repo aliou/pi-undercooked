@@ -260,9 +260,9 @@ export function registerFlowdeckTool(pi: ExtensionAPI, spec: FlowdeckToolSpec) {
       spec.promptSnippet ??
       `Use ${spec.name} for FlowDeck-based Apple project automation tasks.`,
     promptGuidelines: spec.promptGuidelines ?? [
-      "Prefer FlowDeck tools over raw shell commands for Apple project automation.",
-      "Select the action or subcommand that matches the requested FlowDeck workflow.",
-      "JSON output is enabled by default.",
+      "Prefer flowdeck tools over raw shell commands for Apple project automation.",
+      "Select the action or subcommand that matches the requested flowdeck workflow.",
+      "flowdeck JSON output is enabled by default.",
       "Start with flowdeck_context when project setup or workspace state is unclear.",
     ],
     parameters: makeParamsSchema(spec),
