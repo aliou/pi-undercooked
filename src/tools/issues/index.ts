@@ -92,28 +92,26 @@ const IssuesParams = Type.Object({
   includeArchived: Type.Optional(
     Type.Boolean({ description: "Include archived issues in list/search." }),
   ),
-  stateId: Type.Optional(Type.String({ description: "Workflow state ID." })),
-  stateName: Type.Optional(
-    Type.String({ description: "Workflow state name." }),
+  stateId: Type.Optional(
+    Type.String({
+      description:
+        "Workflow state ID. Prefer this for create/update. Resolve via linear_team_states first.",
+    }),
   ),
-  assigneeId: Type.Optional(Type.String({ description: "Assignee user ID." })),
-  assigneeName: Type.Optional(
-    Type.String({ description: "Assignee display name." }),
+  assigneeId: Type.Optional(
+    Type.String({
+      description:
+        "Assignee user ID. Prefer this for create/update. Resolve via linear_people first.",
+    }),
   ),
   projectId: Type.Optional(Type.String({ description: "Project ID." })),
-  projectName: Type.Optional(Type.String({ description: "Project name." })),
   projectMilestoneId: Type.Optional(
     Type.String({ description: "Project milestone ID." }),
-  ),
-  projectMilestoneName: Type.Optional(
-    Type.String({
-      description: "Project milestone name. Requires projectId or projectName.",
-    }),
   ),
   teamId: Type.Optional(
     Type.String({
       description:
-        "Team ID (UUID). For create, required unless defaultTeamKey is configured. For list/search, can use teamKey or teamName instead.",
+        "Team ID (UUID). For create, required unless defaultTeamKey is configured. For list/search, can use teamKey instead.",
     }),
   ),
   teamKey: Type.Optional(
@@ -121,11 +119,7 @@ const IssuesParams = Type.Object({
       description: "Team key (e.g. ENG). Used as filter for list/search.",
     }),
   ),
-  teamName: Type.Optional(
-    Type.String({ description: "Team name. Used as filter for list/search." }),
-  ),
   labelId: Type.Optional(Type.String({ description: "Label ID." })),
-  labelName: Type.Optional(Type.String({ description: "Label name." })),
   title: Type.Optional(
     Type.String({ description: "Issue title or attachment title." }),
   ),
@@ -266,9 +260,10 @@ export function registerIssuesTool(pi: ExtensionAPI) {
     promptSnippet:
       "Use linear_issues to create, list, search, show, or update Linear issues and their comments, attachments, relations, and linked documents.",
     promptGuidelines: [
-      "Prefer search over list when looking for specific issues.",
-      "Use teamKey or teamName instead of teamId when possible.",
-      "Always supply id for show/update.",
+      "Prefer linear_issues search over list when looking for specific issues.",
+      "Use teamKey instead of teamId for linear_issues when possible.",
+      "Always supply id for linear_issues show/update.",
+      "For linear_issues create/update assignment or state changes, call linear_people and linear_team_states first, then pass assigneeId/stateId.",
     ],
     parameters: IssuesParams,
 

@@ -74,16 +74,9 @@ const ProjectsParams = Type.Object({
     Type.Boolean({ description: "Include archived projects in list actions." }),
   ),
   statusId: Type.Optional(Type.String({ description: "Project status ID." })),
-  statusName: Type.Optional(
-    Type.String({ description: "Project status name." }),
-  ),
   leadId: Type.Optional(Type.String({ description: "Project lead user ID." })),
-  leadName: Type.Optional(
-    Type.String({ description: "Project lead display name." }),
-  ),
   teamId: Type.Optional(Type.String({ description: "Team ID." })),
   teamKey: Type.Optional(Type.String({ description: "Team key, e.g. ENG." })),
-  teamName: Type.Optional(Type.String({ description: "Team name." })),
   name: Type.Optional(Type.String({ description: "Project name." })),
   teamIds: Type.Optional(
     Type.Array(Type.String(), {
@@ -198,9 +191,9 @@ export function registerProjectsTool(pi: ExtensionAPI) {
     promptSnippet:
       "Use linear_projects to create, list, show, or update Linear projects and their relations.",
     promptGuidelines: [
-      "Use teamKey or teamName instead of teamId when possible.",
-      "Supply id for show/update.",
-      "Use list to discover available projects.",
+      "Use teamKey instead of teamId for linear_projects when possible.",
+      "Supply id for linear_projects show/update.",
+      "Use linear_projects list to discover available projects.",
     ],
     parameters: ProjectsParams,
 

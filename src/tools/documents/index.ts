@@ -54,8 +54,8 @@ export function registerDocumentsTool(pi: ExtensionAPI) {
     promptSnippet:
       "Use linear_documents to list, show, create, update, or delete Linear documents. Documents can be scoped to a project or issue.",
     promptGuidelines: [
-      "Supply projectId or issueId to scope list/create.",
-      "Supply id for show/update/delete.",
+      "Supply projectId or issueId to linear_documents to scope list/create.",
+      "Supply id for linear_documents show/update/delete.",
     ],
     parameters: DocumentsParams,
     async execute(

@@ -66,8 +66,8 @@ export function registerProjectMilestonesTool(pi: ExtensionAPI) {
     promptSnippet:
       "Use linear_project_milestones to list, show, create, update, or delete milestones within a Linear project.",
     promptGuidelines: [
-      "Supply projectId for list and create.",
-      "Supply milestoneId for show, update, and delete.",
+      "Supply projectId for linear_project_milestones list and create.",
+      "Supply milestoneId for linear_project_milestones show, update, and delete.",
     ],
     parameters: ProjectMilestonesParams,
     async execute(

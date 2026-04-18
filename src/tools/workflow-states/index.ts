@@ -21,7 +21,6 @@ const TeamStatesParams = Type.Object({
   ),
   teamId: Type.Optional(Type.String({ description: "Team ID." })),
   teamKey: Type.Optional(Type.String({ description: "Team key." })),
-  teamName: Type.Optional(Type.String({ description: "Team name." })),
 });
 
 type TeamStatesParamsType = { action: string; [key: string]: unknown };
@@ -39,9 +38,7 @@ export function registerTeamStatesTool(pi: ExtensionAPI) {
     description: "List Linear team workflow states.",
     promptSnippet:
       "Use linear_team_states to list workflow states for a Linear team. Useful for resolving state IDs before creating or updating issues.",
-    promptGuidelines: [
-      "Supply teamKey or teamName to scope results to a specific team.",
-    ],
+    promptGuidelines: ["Supply teamKey to linear_team_states to scope results to a specific team."],
     parameters: TeamStatesParams,
     async execute(
       _toolCallId: string,
@@ -68,8 +65,6 @@ export function registerTeamStatesTool(pi: ExtensionAPI) {
         teamId: typeof params.teamId === "string" ? params.teamId : undefined,
         teamKey:
           typeof params.teamKey === "string" ? params.teamKey : undefined,
-        teamName:
-          typeof params.teamName === "string" ? params.teamName : undefined,
       });
 
       if (result.error) {

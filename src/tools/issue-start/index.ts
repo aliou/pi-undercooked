@@ -50,9 +50,9 @@ export function registerIssueStartTool(pi: ExtensionAPI) {
     promptSnippet:
       "Use linear_issue_start to begin implementation from a Linear issue. It can move issue state and create a local branch.",
     promptGuidelines: [
-      "Always pass id.",
-      "Respect ask/true/false defaults from /linear:settings unless user overrides.",
-      "If repo is dirty, ask user before proceeding.",
+      "Always pass id to linear_issue_start.",
+      "Respect ask/true/false defaults from /linear:settings unless user overrides for linear_issue_start.",
+      "If repo is dirty, ask user before proceeding with linear_issue_start.",
     ],
     parameters: IssueStartSchema,
 
