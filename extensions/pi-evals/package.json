@@ -1,0 +1,46 @@
+{
+  "name": "@aliou/pi-undercooked-pi-evals",
+  "private": true,
+  "version": "0.3.0",
+  "description": "Eval framework for pi coding agent",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "pi-evals": "dist/cli.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check",
+    "format": "biome check --write",
+    "eval": "tsx src/cli.ts",
+    "eval:build": "node dist/cli.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "files": [
+    "dist",
+    "src/extensions",
+    "skill"
+  ],
+  "keywords": [
+    "pi",
+    "eval",
+    "llm",
+    "testing"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aliou/pi-undercooked"
+  }
+}

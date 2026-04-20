@@ -9,6 +9,7 @@ A collection of Pi extensions and integrations that are proof-of-concept, not ye
 | `pi-apple-fm-provider` | Provider for Apple Foundation Models via on-device inference |
 | `pi-crit` | Code review tool backed by Crit |
 | `pi-excel` | Reading, querying, and updating Excel files |
+| `pi-evals` | Local eval framework for the Pi coding agent |
 | `pi-flowdeck` | iOS development tools via Flowdeck |
 | `pi-output-style` | Configurable output style presets |
 | `pi-xcode` | Xcode project, build, and simulator management |
@@ -20,7 +21,7 @@ A collection of Pi extensions and integrations that are proof-of-concept, not ye
 | `poc-playwriter` | Browser automation via Playwriter |
 | `poc-proof-bridge` | Local collaboration via Proof bridge |
 
-Each extension has its own `package.json` with a `pi` key pointing to its entry file, so they can be loaded individually.
+Most entries here are Pi runtime extensions with their own `package.json` and a `pi` key pointing to the entry file. `pi-evals` is a local tooling package kept here with the other experiments.
 
 ## Integrations
 
