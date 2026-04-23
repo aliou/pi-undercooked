@@ -1,4 +1,4 @@
-import { Type } from "@sinclair/typebox";
+import { Type } from "typebox";
 
 const OptionSchema = Type.Object({
   label: Type.String({ description: "Option name (1-5 words)" }),

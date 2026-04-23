@@ -1,7 +1,7 @@
 import { access } from "node:fs/promises";
 import path from "node:path";
 import type { ToolDefinition } from "@mariozechner/pi-coding-agent";
-import { type Static, Type } from "@sinclair/typebox";
+import { type Static, Type } from "typebox";
 import { runShell } from "../utils/exec";
 import { screenshot } from "../utils/simulator";
 

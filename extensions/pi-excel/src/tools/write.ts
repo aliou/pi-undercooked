@@ -6,8 +6,8 @@ import type {
 } from "@mariozechner/pi-coding-agent";
 import { getMarkdownTheme } from "@mariozechner/pi-coding-agent";
 import { Box, Markdown, Text } from "@mariozechner/pi-tui";
-import type { Static } from "@sinclair/typebox";
-import { Type } from "@sinclair/typebox";
+import type { Static } from "typebox";
+import { Type } from "typebox";
 import { writeToSheet } from "../utils/excel";
 
 const WriteOperation = Type.Object({

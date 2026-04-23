@@ -1,4 +1,4 @@
-import { Type } from "@sinclair/typebox";
+import { Type } from "typebox";
 import {
   DynamicBorder,
   type ExtensionAPI,
@@ -655,10 +655,6 @@ export default function (pi: ExtensionAPI) {
   startPoller(pi);
 
   pi.on("session_start", async (_event, ctx) => {
-    await resetSessionState(pi, ctx);
-  });
-
-  pi.on("session_switch", async (_event, ctx) => {
     await resetSessionState(pi, ctx);
   });
 

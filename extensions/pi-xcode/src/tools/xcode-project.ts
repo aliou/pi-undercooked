@@ -1,5 +1,5 @@
 import type { ToolDefinition } from "@mariozechner/pi-coding-agent";
-import { type Static, Type } from "@sinclair/typebox";
+import { type Static, Type } from "typebox";
 import { listSchemes, listTargets, resolveXcodeLocation } from "../utils/xcode";
 
 const schema = Type.Object({

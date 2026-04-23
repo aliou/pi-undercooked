@@ -13,7 +13,7 @@ import type {
   ToolRenderResultOptions,
 } from "@mariozechner/pi-coding-agent";
 import { Container, Text } from "@mariozechner/pi-tui";
-import { type Static, Type } from "@sinclair/typebox";
+import { type Static, Type } from "typebox";
 import { configLoader } from "../config";
 
 const parameters = Type.Object({

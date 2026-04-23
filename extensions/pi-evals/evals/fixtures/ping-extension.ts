@@ -4,7 +4,7 @@
  */
 
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
-import { Type } from "@sinclair/typebox";
+import { Type } from "typebox";
 
 export default (pi: ExtensionAPI) => {
   pi.registerTool({

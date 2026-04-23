@@ -10,7 +10,7 @@ import {
   visibleWidth,
   wrapTextWithAnsi,
 } from "@mariozechner/pi-tui";
-import type { Static } from "@sinclair/typebox";
+import type { Static } from "typebox";
 import type { AskUserQuestionParams } from "./schema";
 import type {
   Annotation,

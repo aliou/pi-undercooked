@@ -14,7 +14,7 @@ import type {
   ToolRenderResultOptions,
 } from "@mariozechner/pi-coding-agent";
 import { Container, Text } from "@mariozechner/pi-tui";
-import { type Static, Type } from "@sinclair/typebox";
+import { type Static, Type } from "typebox";
 import { configLoader } from "../config";
 import { startReviewListener } from "../utils/review-listener";
 import { getActiveSession, trackSession } from "../utils/sessions";

@@ -17,11 +17,6 @@ export function setupDumbZoneHook(pi: ExtensionAPI): void {
     clearDumbZoneWidget(ctx);
   });
 
-  pi.on("session_switch", async (_event, ctx) => {
-    resetDumbZoneWidgetState();
-    clearDumbZoneWidget(ctx);
-  });
-
   pi.on("agent_end", async (event, ctx) => {
     const result = checkDumbZone(ctx, event.messages);
 

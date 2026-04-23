@@ -1,6 +1,6 @@
 import type { ExtensionAPI, ExtensionContext, AgentToolResult, Theme, ToolRenderResultOptions } from "@mariozechner/pi-coding-agent";
 import { Text } from "@mariozechner/pi-tui";
-import { Type, type Static } from "@sinclair/typebox";
+import { Type, type Static } from "typebox";
 
 // OSC 9;4 progress bar sequences for iTerm2, Ghostty, and compatible terminals.
 //

@@ -37,11 +37,11 @@
     "tsfm-sdk": "^0.3.1"
   },
   "peerDependencies": {
-    "@mariozechner/pi-agent-core": ">=0.61.0",
-    "@mariozechner/pi-ai": ">=0.61.0",
-    "@mariozechner/pi-coding-agent": ">=0.61.0",
-    "@mariozechner/pi-tui": ">=0.61.0",
-    "@sinclair/typebox": ">=0.34.0"
+    "@mariozechner/pi-agent-core": ">=0.69.0",
+    "@mariozechner/pi-ai": ">=0.69.0",
+    "@mariozechner/pi-coding-agent": ">=0.69.0",
+    "@mariozechner/pi-tui": ">=0.69.0",
+    "typebox": ">=1.0.0"
   },
   "peerDependenciesMeta": {
     "@mariozechner/pi-coding-agent": {
@@ -56,18 +56,18 @@
     "@mariozechner/pi-tui": {
       "optional": true
     },
-    "@sinclair/typebox": {
+    "typebox": {
       "optional": true
     }
   },
   "devDependencies": {
     "@aliou/biome-plugins": "^0.3.2",
     "@biomejs/biome": "^2.4.2",
-    "@mariozechner/pi-agent-core": "0.61.0",
-    "@mariozechner/pi-ai": "0.61.0",
-    "@mariozechner/pi-coding-agent": "0.61.0",
-    "@mariozechner/pi-tui": "0.61.0",
-    "@sinclair/typebox": "^0.34.48",
+    "@mariozechner/pi-agent-core": "0.69.0",
+    "@mariozechner/pi-ai": "0.69.0",
+    "@mariozechner/pi-coding-agent": "0.69.0",
+    "@mariozechner/pi-tui": "0.69.0",
+    "typebox": "^1.0.0",
     "@types/node": "^25.0.10",
     "tsup": "^8.5.1",
     "tsx": "^4.21.0",

@@ -8,7 +8,7 @@ import type {
 } from "@mariozechner/pi-coding-agent";
 import { type ExtensionAPI, truncateHead } from "@mariozechner/pi-coding-agent";
 import { Text } from "@mariozechner/pi-tui";
-import { Type } from "@sinclair/typebox";
+import { Type } from "typebox";
 import { getClient, parseDomainList } from "../../client";
 import {
   buildPrompt,
