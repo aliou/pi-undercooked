@@ -42,7 +42,6 @@
   "devDependencies": {
     "@aliou/biome-plugins": "^0.6.0",
     "@biomejs/biome": "^2.3.13",
-    "@changesets/cli": "^2.27.11",
     "@types/node": "^25.0.10",
     "husky": "^9.1.7",
     "ts-json-schema-generator": "^2.4.0",
@@ -68,10 +67,7 @@
     "gen:schema": "ts-json-schema-generator --path src/config.ts --type LinearConfig --no-type-check -o schema.json",
     "check:schema": "ts-json-schema-generator --path src/config.ts --type LinearConfig --no-type-check -o /tmp/schema-check.json && diff -q schema.json /tmp/schema-check.json",
     "check:lockfile": "pnpm install --frozen-lockfile --ignore-scripts",
-    "prepare": "[ -d .git ] && husky || true",
-    "changeset": "changeset",
-    "version": "changeset version",
-    "release": "pnpm changeset publish"
+    "prepare": "[ -d .git ] && husky || true"
   },
   "packageManager": "pnpm@10.26.1",
   "peerDependenciesMeta": {
