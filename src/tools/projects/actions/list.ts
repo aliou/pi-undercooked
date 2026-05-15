@@ -6,12 +6,9 @@ export interface ListProjectsParams {
   limit?: number;
   includeArchived?: boolean;
   statusId?: string;
-  statusName?: string;
   leadId?: string;
-  leadName?: string;
   teamId?: string;
   teamKey?: string;
-  teamName?: string;
 }
 
 export interface ListProjectsResult {
@@ -24,24 +21,18 @@ function buildProjectFilter(
 ): Record<string, unknown> | undefined {
   const filter: Record<string, unknown> = {};
 
-  if (params.statusId || params.statusName) {
-    filter.status = params.statusId
-      ? { id: { eq: params.statusId } }
-      : { name: { eq: params.statusName } };
+  if (params.statusId) {
+    filter.status = { id: { eq: params.statusId } };
   }
 
-  if (params.leadId || params.leadName) {
-    filter.lead = params.leadId
-      ? { id: { eq: params.leadId } }
-      : { displayName: { eq: params.leadName } };
+  if (params.leadId) {
+    filter.lead = { id: { eq: params.leadId } };
   }
 
-  if (params.teamId || params.teamKey || params.teamName) {
+  if (params.teamId || params.teamKey) {
     filter.accessibleTeams = params.teamId
       ? { some: { id: { eq: params.teamId } } }
-      : params.teamKey
-        ? { some: { key: { eq: params.teamKey } } }
-        : { some: { name: { eq: params.teamName } } };
+      : { some: { key: { eq: params.teamKey } } };
   }
 
   return Object.keys(filter).length > 0 ? filter : undefined;

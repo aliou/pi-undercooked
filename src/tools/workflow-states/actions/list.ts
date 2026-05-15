@@ -6,7 +6,6 @@ export interface ListWorkflowStatesParams {
   limit?: number;
   teamId?: string;
   teamKey?: string;
-  teamName?: string;
 }
 
 export interface ListWorkflowStatesResult {
@@ -20,13 +19,8 @@ export async function listWorkflowStates(
 ): Promise<ListWorkflowStatesResult> {
   try {
     const resolvedTeamId =
-      params.teamId || params.teamKey || params.teamName
-        ? await resolveTeamId(
-            client,
-            params.teamId,
-            params.teamKey,
-            params.teamName,
-          )
+      params.teamId || params.teamKey
+        ? await resolveTeamId(client, params.teamId, params.teamKey, undefined)
         : undefined;
 
     const filter = resolvedTeamId

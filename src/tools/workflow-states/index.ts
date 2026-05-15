@@ -38,7 +38,9 @@ export function registerTeamStatesTool(pi: ExtensionAPI) {
     description: "List Linear team workflow states.",
     promptSnippet:
       "Use linear_team_states to list workflow states for a Linear team. Useful for resolving state IDs before creating or updating issues.",
-    promptGuidelines: ["Supply teamKey to linear_team_states to scope results to a specific team."],
+    promptGuidelines: [
+      "Supply teamKey to linear_team_states to scope results to a specific team.",
+    ],
     parameters: TeamStatesParams,
     async execute(
       _toolCallId: string,
