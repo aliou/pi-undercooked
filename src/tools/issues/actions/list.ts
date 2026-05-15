@@ -6,16 +6,11 @@ export interface ListIssuesParams {
   limit?: number;
   includeArchived?: boolean;
   stateId?: string;
-  stateName?: string;
   assigneeId?: string;
-  assigneeName?: string;
   projectId?: string;
-  projectName?: string;
   teamId?: string;
   teamKey?: string;
-  teamName?: string;
   labelId?: string;
-  labelName?: string;
   includeCompleted?: boolean;
   includeCanceled?: boolean;
   includeSubIssues?: boolean;
@@ -36,36 +31,26 @@ function buildIssueFilter(params: ListIssuesParams): Record<string, unknown> {
     filter.state = { type: { nin: excludeTypes } };
   }
 
-  if (params.stateId || params.stateName) {
-    filter.state = params.stateId
-      ? { id: { eq: params.stateId } }
-      : { name: { eq: params.stateName } };
+  if (params.stateId) {
+    filter.state = { id: { eq: params.stateId } };
   }
 
-  if (params.assigneeId || params.assigneeName) {
-    filter.assignee = params.assigneeId
-      ? { id: { eq: params.assigneeId } }
-      : { displayName: { eq: params.assigneeName } };
+  if (params.assigneeId) {
+    filter.assignee = { id: { eq: params.assigneeId } };
   }
 
-  if (params.projectId || params.projectName) {
-    filter.project = params.projectId
-      ? { id: { eq: params.projectId } }
-      : { name: { eq: params.projectName } };
+  if (params.projectId) {
+    filter.project = { id: { eq: params.projectId } };
   }
 
-  if (params.teamId || params.teamKey || params.teamName) {
+  if (params.teamId || params.teamKey) {
     filter.team = params.teamId
       ? { id: { eq: params.teamId } }
-      : params.teamKey
-        ? { key: { eq: params.teamKey } }
-        : { name: { eq: params.teamName } };
+      : { key: { eq: params.teamKey } };
   }
 
-  if (params.labelId || params.labelName) {
-    filter.labels = params.labelId
-      ? { some: { id: { eq: params.labelId } } }
-      : { some: { name: { eq: params.labelName } } };
+  if (params.labelId) {
+    filter.labels = { some: { id: { eq: params.labelId } } };
   }
 
   return filter;

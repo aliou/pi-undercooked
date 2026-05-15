@@ -8,16 +8,13 @@ import { resolveIssueProjectMilestoneId } from "./helpers";
 export interface CreateIssueParams {
   teamId?: string;
   teamKey?: string;
-  teamName?: string;
   title?: string;
   description?: string;
   assigneeId?: string;
   priority?: number;
   stateId?: string;
   projectId?: string;
-  projectName?: string;
   projectMilestoneId?: string;
-  projectMilestoneName?: string;
   labelIds?: string[];
   dueDate?: string;
   estimate?: number;
@@ -42,29 +39,23 @@ export async function createIssue(
       client,
       params.teamId,
       params.teamKey,
-      params.teamName,
+      undefined,
     );
     if (!teamId) {
-      const identifier = params.teamKey ?? params.teamName ?? params.teamId;
+      const identifier = params.teamKey ?? params.teamId;
       return {
         error: identifier
           ? `Could not find team "${identifier}". Verify the team key or name.`
-          : "No team resolved. Provide teamId/teamKey/teamName or set defaultTeamKey in /linear:auth or /linear:settings.",
+          : "No team resolved. Provide teamId/teamKey or set defaultTeamKey in /linear:auth or /linear:settings.",
       };
     }
 
-    const resolvedProjectId = await resolveProjectId(
-      client,
-      params.projectId,
-      params.projectName,
-    );
+    const resolvedProjectId = await resolveProjectId(client, params.projectId);
     const { milestoneId, error } = await resolveIssueProjectMilestoneId(
       client,
       {
         projectId: resolvedProjectId,
-        projectName: params.projectName,
         projectMilestoneId: params.projectMilestoneId,
-        projectMilestoneName: params.projectMilestoneName,
       },
     );
     if (error) return { error };

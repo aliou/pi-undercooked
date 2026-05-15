@@ -12,9 +12,7 @@ export interface UpdateIssueParams {
   priority?: number;
   stateId?: string;
   projectId?: string;
-  projectName?: string;
   projectMilestoneId?: string;
-  projectMilestoneName?: string;
   labelIds?: string[];
   dueDate?: string;
   estimate?: number;
@@ -36,17 +34,14 @@ export async function updateIssue(
   }
 
   try {
-    const resolvedProjectId =
-      params.projectId || params.projectName
-        ? await resolveProjectId(client, params.projectId, params.projectName)
-        : undefined;
+    const resolvedProjectId = params.projectId
+      ? await resolveProjectId(client, params.projectId)
+      : undefined;
     const { milestoneId, error } = await resolveIssueProjectMilestoneId(
       client,
       {
         projectId: resolvedProjectId,
-        projectName: params.projectName,
         projectMilestoneId: params.projectMilestoneId,
-        projectMilestoneName: params.projectMilestoneName,
       },
     );
     if (error) return { error };
