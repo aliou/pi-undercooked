@@ -1,4 +1,4 @@
-# @aliou/pi-extension-template
+# @aliou/pi-linear
 
 ## 0.0.1
 

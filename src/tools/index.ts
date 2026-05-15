@@ -1,4 +1,4 @@
-import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { registerDocumentsTool } from "./documents/index";
 import { registerIssueStartTool } from "./issue-start/index";
 import { registerIssuesTool } from "./issues/index";

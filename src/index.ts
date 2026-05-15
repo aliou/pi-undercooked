@@ -1,4 +1,4 @@
-import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { hasLinearCredentials, LINEAR_CREDENTIALS_ERROR } from "./client";
 import { registerLinearAuth } from "./commands/auth";
 import { registerLinearBrowser } from "./commands/browser";

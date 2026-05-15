@@ -28,32 +28,37 @@
     "README.md"
   ],
   "dependencies": {
-    "@aliou/pi-utils-settings": "^0.11.0",
-    "@aliou/pi-utils-ui": "^0.1.0",
+    "@aliou/pi-utils-settings": "^0.15.1",
+    "@aliou/pi-utils-ui": "^0.4.1",
     "@aliou/sh": "^0.1.0",
-    "@linear/sdk": "^77.0.0",
-    "@sinclair/typebox": "^0.34.48"
+    "@linear/sdk": "^77.0.0"
   },
   "peerDependencies": {
-    "@mariozechner/pi-coding-agent": "0.62.0",
-    "@mariozechner/pi-tui": "0.62.0"
+    "@earendil-works/pi-ai": "*",
+    "@earendil-works/pi-coding-agent": "*",
+    "@earendil-works/pi-tui": "*",
+    "typebox": "*"
   },
   "devDependencies": {
     "@aliou/biome-plugins": "^0.6.0",
     "@biomejs/biome": "^2.3.13",
     "@changesets/cli": "^2.27.11",
-    "@mariozechner/pi-ai": "0.62.0",
-    "@mariozechner/pi-coding-agent": "0.62.0",
     "@types/node": "^25.0.10",
     "husky": "^9.1.7",
     "ts-json-schema-generator": "^2.4.0",
     "typescript": "^5.9.3",
-    "vitest": "^4.0.18"
+    "vitest": "^4.0.18",
+    "@earendil-works/pi-ai": "0.74.0",
+    "@earendil-works/pi-coding-agent": "0.74.0",
+    "@earendil-works/pi-tui": "0.74.0",
+    "typebox": "1.1.24"
   },
   "pnpm": {
     "overrides": {
-      "@mariozechner/pi-ai": "$@mariozechner/pi-coding-agent",
-      "@mariozechner/pi-tui": "$@mariozechner/pi-coding-agent"
+      "@earendil-works/pi-ai": "$@earendil-works/pi-coding-agent",
+      "@earendil-works/pi-tui": "$@earendil-works/pi-coding-agent",
+      "@earendil-works/pi-agent-core": "$@earendil-works/pi-coding-agent",
+      "typebox": "1.1.24"
     }
   },
   "scripts": {
@@ -70,10 +75,16 @@
   },
   "packageManager": "pnpm@10.26.1",
   "peerDependenciesMeta": {
-    "@mariozechner/pi-coding-agent": {
+    "@earendil-works/pi-ai": {
       "optional": true
     },
-    "@mariozechner/pi-tui": {
+    "@earendil-works/pi-coding-agent": {
+      "optional": true
+    },
+    "@earendil-works/pi-tui": {
+      "optional": true
+    },
+    "typebox": {
       "optional": true
     }
   }

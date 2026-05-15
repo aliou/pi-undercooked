@@ -2,7 +2,7 @@ import type { Scope } from "@aliou/pi-utils-settings";
 import type {
   ExtensionAPI,
   ExtensionCommandContext,
-} from "@mariozechner/pi-coding-agent";
+} from "@earendil-works/pi-coding-agent";
 import { clearClients } from "../client";
 import {
   configLoader,

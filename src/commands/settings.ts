@@ -4,8 +4,8 @@ import {
   SettingsDetailEditor,
   type SettingsSection,
 } from "@aliou/pi-utils-settings";
-import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
-import type { Component, SettingsListTheme } from "@mariozechner/pi-tui";
+import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
+import type { Component, SettingsListTheme } from "@earendil-works/pi-tui";
 import { clearClients } from "../client";
 import {
   configLoader,
@@ -211,7 +211,7 @@ export function registerLinearSettings(pi: ExtensionAPI): void {
                 ctx.setDraft(draft);
                 done(selected);
               },
-              onDone: () => done(undefined),
+              onDone: () => done(),
             }),
         });
       }

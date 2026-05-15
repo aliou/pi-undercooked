@@ -1,8 +1,8 @@
 import type {
   ExtensionAPI,
   ExtensionCommandContext,
-} from "@mariozechner/pi-coding-agent";
-import { Text } from "@mariozechner/pi-tui";
+} from "@earendil-works/pi-coding-agent";
+import { Text } from "@earendil-works/pi-tui";
 import { getLinearClient } from "../client";
 import { runIssueStart } from "../issue-start/run";
 import { listIssues } from "../tools/issues/actions/list";
@@ -167,7 +167,15 @@ export function registerLinearStart(pi: ExtensionAPI): void {
           },
         );
 
-        if (!selected) {
+        if (selected === undefined) {
+          ctx.ui.notify(
+            "Interactive issue picker unavailable. Pass an issue id, e.g. /linear:start ENG-123.",
+            "warning",
+          );
+          return;
+        }
+
+        if (selected === null) {
           ctx.ui.notify("Canceled.", "info");
           return;
         }

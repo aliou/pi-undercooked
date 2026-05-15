@@ -1,16 +1,16 @@
-import {
-  createPanelPadder,
-  renderPanelRule,
-  renderPanelTitleLine,
-} from "@aliou/pi-utils-ui";
-import type { Theme } from "@mariozechner/pi-coding-agent";
+import type { Theme } from "@earendil-works/pi-coding-agent";
 import {
   type Component,
   matchesKey,
   truncateToWidth,
   visibleWidth,
-} from "@mariozechner/pi-tui";
+} from "@earendil-works/pi-tui";
 import type { SerializedIssue } from "../tools/issues/types";
+import {
+  createPanelPadder,
+  renderPanelRule,
+  renderPanelTitleLine,
+} from "./panel";
 
 interface PickerFilters {
   mineOnly: boolean;

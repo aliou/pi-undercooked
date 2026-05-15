@@ -4,14 +4,14 @@ import {
   Wizard,
   type WizardStepContext,
 } from "@aliou/pi-utils-settings";
-import { LinearClient } from "@linear/sdk";
 import {
   type ExtensionCommandContext,
   getSettingsListTheme,
   type Theme,
-} from "@mariozechner/pi-coding-agent";
-import type { Component, SettingsListTheme } from "@mariozechner/pi-tui";
-import { Input, Key, matchesKey } from "@mariozechner/pi-tui";
+} from "@earendil-works/pi-coding-agent";
+import type { Component, SettingsListTheme } from "@earendil-works/pi-tui";
+import { Input, Key, matchesKey } from "@earendil-works/pi-tui";
+import { LinearClient } from "@linear/sdk";
 import { clearClients } from "../client";
 import {
   configLoader,
@@ -475,5 +475,9 @@ export async function runAuthWizard(
       },
     };
   });
-  return saved ?? false;
+  if (saved === undefined) {
+    ctx.ui.notify("linear:auth requires interactive TUI mode.", "warning");
+    return false;
+  }
+  return saved;
 }

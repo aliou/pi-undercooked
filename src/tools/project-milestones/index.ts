@@ -1,14 +1,17 @@
-import { StringEnum } from "@mariozechner/pi-ai";
+import { StringEnum } from "@earendil-works/pi-ai";
 import type {
   AgentToolResult,
   AgentToolUpdateCallback,
   ExtensionAPI,
   ExtensionContext,
   Theme,
-} from "@mariozechner/pi-coding-agent";
-import { Text } from "@mariozechner/pi-tui";
-import { Type } from "@sinclair/typebox";
+  ToolRenderResultOptions,
+} from "@earendil-works/pi-coding-agent";
+import { defineTool } from "@earendil-works/pi-coding-agent";
+import { Text } from "@earendil-works/pi-tui";
+import { type Static, Type } from "typebox";
 import { getLinearClient, LINEAR_CREDENTIALS_ERROR } from "../../client";
+import { prepareToolText } from "../output";
 import { createProjectMilestone } from "../projects/actions/milestone-create";
 import { deleteProjectMilestone } from "../projects/actions/milestone-delete";
 import { showProjectMilestone } from "../projects/actions/milestone-show";
@@ -48,7 +51,7 @@ const ProjectMilestonesParams = Type.Object({
   ),
 });
 
-type ProjectMilestonesParamsType = { action: string; [key: string]: unknown };
+type ProjectMilestonesParamsType = Static<typeof ProjectMilestonesParams>;
 
 interface ProjectMilestonesDetails {
   action: string;
@@ -59,229 +62,252 @@ interface ProjectMilestonesDetails {
 }
 
 export function registerProjectMilestonesTool(pi: ExtensionAPI) {
-  pi.registerTool<typeof ProjectMilestonesParams, ProjectMilestonesDetails>({
-    name: "linear_project_milestones",
-    label: "Linear: Project Milestones",
-    description: "Manage Linear project milestones.",
-    promptSnippet:
-      "Use linear_project_milestones to list, show, create, update, or delete milestones within a Linear project.",
-    promptGuidelines: [
-      "Supply projectId for linear_project_milestones list and create.",
-      "Supply milestoneId for linear_project_milestones show, update, and delete.",
-    ],
-    parameters: ProjectMilestonesParams,
-    async execute(
-      _toolCallId: string,
-      params: ProjectMilestonesParamsType,
-      _signal: AbortSignal | undefined,
-      onUpdate: AgentToolUpdateCallback<ProjectMilestonesDetails> | undefined,
-      _ctx: ExtensionContext,
-    ): Promise<AgentToolResult<ProjectMilestonesDetails>> {
-      const client = getLinearClient();
-      if (!client) {
-        return {
-          content: [{ type: "text", text: LINEAR_CREDENTIALS_ERROR }],
-          details: { action: params.action, error: LINEAR_CREDENTIALS_ERROR },
-        };
-      }
-
-      onUpdate?.({
-        content: [
-          {
-            type: "text",
-            text: `Running project_milestones.${params.action}...`,
-          },
-        ],
-        details: { action: params.action },
-      });
-
-      let details: ProjectMilestonesDetails;
-      let text = "";
-
-      switch (params.action) {
-        case "list": {
-          const result = await listProjectMilestones(client, {
-            id:
-              typeof params.projectId === "string"
-                ? params.projectId
-                : undefined,
-            limit: typeof params.limit === "number" ? params.limit : undefined,
-            includeArchived:
-              typeof params.includeArchived === "boolean"
-                ? params.includeArchived
-                : undefined,
-          });
-          details = result.error
-            ? { action: params.action, error: result.error }
-            : { action: params.action, milestones: result.milestones };
-          text = result.milestones
-            ? `Listed ${result.milestones.length} milestones.\n${result.milestones
-                .map(
-                  (milestone) =>
-                    `- ${milestone.name} | ${milestone.targetDate ?? "no target date"}`,
-                )
-                .join("\n")}`
-            : "";
-          break;
-        }
-        case "show": {
-          const result = await showProjectMilestone(client, {
-            milestoneId:
-              typeof params.milestoneId === "string"
-                ? params.milestoneId
-                : undefined,
-          });
-          details = result.error
-            ? { action: params.action, error: result.error }
-            : { action: params.action, milestone: result.milestone };
-          if (result.milestone) {
-            text = JSON.stringify(
-              {
-                id: result.milestone.id,
-                name: result.milestone.name,
-                status: result.milestone.status,
-                progress: Math.round(result.milestone.progress * 100),
-                targetDate: result.milestone.targetDate,
-                projectName: result.milestone.projectName,
-                description: result.milestone.description,
-              },
-              null,
-              2,
-            );
-          }
-          break;
-        }
-        case "create": {
-          const result = await createProjectMilestone(client, {
-            projectId:
-              typeof params.projectId === "string"
-                ? params.projectId
-                : undefined,
-            name: typeof params.name === "string" ? params.name : undefined,
-            description:
-              typeof params.description === "string"
-                ? params.description
-                : undefined,
-            targetDate:
-              typeof params.targetDate === "string"
-                ? params.targetDate
-                : undefined,
-            sortOrder:
-              typeof params.sortOrder === "number"
-                ? params.sortOrder
-                : undefined,
-          });
-          details = result.error
-            ? { action: params.action, error: result.error }
-            : { action: params.action, milestone: result.milestone };
-          if (result.milestone) {
-            text = JSON.stringify(
-              {
-                id: result.milestone.id,
-                name: result.milestone.name,
-                status: result.milestone.status,
-                progress: Math.round(result.milestone.progress * 100),
-                targetDate: result.milestone.targetDate,
-                projectName: result.milestone.projectName,
-                description: result.milestone.description,
-              },
-              null,
-              2,
-            );
-          }
-          break;
-        }
-        case "update": {
-          const result = await updateProjectMilestone(client, {
-            milestoneId:
-              typeof params.milestoneId === "string"
-                ? params.milestoneId
-                : undefined,
-            projectId:
-              typeof params.projectId === "string"
-                ? params.projectId
-                : undefined,
-            name: typeof params.name === "string" ? params.name : undefined,
-            description:
-              typeof params.description === "string"
-                ? params.description
-                : undefined,
-            targetDate:
-              typeof params.targetDate === "string"
-                ? params.targetDate
-                : undefined,
-            sortOrder:
-              typeof params.sortOrder === "number"
-                ? params.sortOrder
-                : undefined,
-          });
-          details = result.error
-            ? { action: params.action, error: result.error }
-            : { action: params.action, milestone: result.milestone };
-          if (result.milestone) {
-            text = JSON.stringify(
-              {
-                id: result.milestone.id,
-                name: result.milestone.name,
-                status: result.milestone.status,
-                progress: Math.round(result.milestone.progress * 100),
-                targetDate: result.milestone.targetDate,
-                projectName: result.milestone.projectName,
-                description: result.milestone.description,
-              },
-              null,
-              2,
-            );
-          }
-          break;
-        }
-        case "delete": {
-          const result = await deleteProjectMilestone(client, {
-            milestoneId:
-              typeof params.milestoneId === "string"
-                ? params.milestoneId
-                : undefined,
-          });
-          details = result.error
-            ? { action: params.action, error: result.error }
-            : { action: params.action, deleted: result.deleted };
-          if (result.deleted)
-            text = `Deleted milestone ${String(params.milestoneId ?? "")}.`;
-          break;
-        }
-        default:
-          details = {
-            action: params.action,
-            error: `Unknown action: ${params.action}`,
+  pi.registerTool(
+    defineTool({
+      name: "linear_project_milestones",
+      label: "Linear: Project Milestones",
+      description: "Manage Linear project milestones.",
+      promptSnippet:
+        "Use linear_project_milestones to list, show, create, update, or delete milestones within a Linear project.",
+      promptGuidelines: [
+        "Supply projectId for linear_project_milestones list and create.",
+        "Supply milestoneId for linear_project_milestones show, update, and delete.",
+      ],
+      parameters: ProjectMilestonesParams,
+      executionMode: "sequential",
+      async execute(
+        _toolCallId: string,
+        params: ProjectMilestonesParamsType,
+        _signal: AbortSignal | undefined,
+        onUpdate: AgentToolUpdateCallback<ProjectMilestonesDetails> | undefined,
+        _ctx: ExtensionContext,
+      ): Promise<AgentToolResult<ProjectMilestonesDetails>> {
+        const client = getLinearClient();
+        if (!client) {
+          return {
+            content: [{ type: "text", text: LINEAR_CREDENTIALS_ERROR }],
+            details: { action: params.action, error: LINEAR_CREDENTIALS_ERROR },
           };
-      }
+        }
 
-      if (details.error) {
+        onUpdate?.({
+          content: [
+            {
+              type: "text",
+              text: `Running project_milestones.${params.action}...`,
+            },
+          ],
+          details: { action: params.action },
+        });
+
+        let details: ProjectMilestonesDetails;
+        let text = "";
+
+        switch (params.action) {
+          case "list": {
+            const result = await listProjectMilestones(client, {
+              id:
+                typeof params.projectId === "string"
+                  ? params.projectId
+                  : undefined,
+              limit:
+                typeof params.limit === "number" ? params.limit : undefined,
+              includeArchived:
+                typeof params.includeArchived === "boolean"
+                  ? params.includeArchived
+                  : undefined,
+            });
+            details = result.error
+              ? { action: params.action, error: result.error }
+              : { action: params.action, milestones: result.milestones };
+            text = result.milestones
+              ? `Listed ${result.milestones.length} milestones.\n${result.milestones
+                  .map(
+                    (milestone) =>
+                      `- ${milestone.name} | ${milestone.targetDate ?? "no target date"}`,
+                  )
+                  .join("\n")}`
+              : "";
+            break;
+          }
+          case "show": {
+            const result = await showProjectMilestone(client, {
+              milestoneId:
+                typeof params.milestoneId === "string"
+                  ? params.milestoneId
+                  : undefined,
+            });
+            details = result.error
+              ? { action: params.action, error: result.error }
+              : { action: params.action, milestone: result.milestone };
+            if (result.milestone) {
+              text = JSON.stringify(
+                {
+                  id: result.milestone.id,
+                  name: result.milestone.name,
+                  status: result.milestone.status,
+                  progress: Math.round(result.milestone.progress * 100),
+                  targetDate: result.milestone.targetDate,
+                  projectName: result.milestone.projectName,
+                  description: result.milestone.description,
+                },
+                null,
+                2,
+              );
+            }
+            break;
+          }
+          case "create": {
+            const result = await createProjectMilestone(client, {
+              projectId:
+                typeof params.projectId === "string"
+                  ? params.projectId
+                  : undefined,
+              name: typeof params.name === "string" ? params.name : undefined,
+              description:
+                typeof params.description === "string"
+                  ? params.description
+                  : undefined,
+              targetDate:
+                typeof params.targetDate === "string"
+                  ? params.targetDate
+                  : undefined,
+              sortOrder:
+                typeof params.sortOrder === "number"
+                  ? params.sortOrder
+                  : undefined,
+            });
+            details = result.error
+              ? { action: params.action, error: result.error }
+              : { action: params.action, milestone: result.milestone };
+            if (result.milestone) {
+              text = JSON.stringify(
+                {
+                  id: result.milestone.id,
+                  name: result.milestone.name,
+                  status: result.milestone.status,
+                  progress: Math.round(result.milestone.progress * 100),
+                  targetDate: result.milestone.targetDate,
+                  projectName: result.milestone.projectName,
+                  description: result.milestone.description,
+                },
+                null,
+                2,
+              );
+            }
+            break;
+          }
+          case "update": {
+            const result = await updateProjectMilestone(client, {
+              milestoneId:
+                typeof params.milestoneId === "string"
+                  ? params.milestoneId
+                  : undefined,
+              projectId:
+                typeof params.projectId === "string"
+                  ? params.projectId
+                  : undefined,
+              name: typeof params.name === "string" ? params.name : undefined,
+              description:
+                typeof params.description === "string"
+                  ? params.description
+                  : undefined,
+              targetDate:
+                typeof params.targetDate === "string"
+                  ? params.targetDate
+                  : undefined,
+              sortOrder:
+                typeof params.sortOrder === "number"
+                  ? params.sortOrder
+                  : undefined,
+            });
+            details = result.error
+              ? { action: params.action, error: result.error }
+              : { action: params.action, milestone: result.milestone };
+            if (result.milestone) {
+              text = JSON.stringify(
+                {
+                  id: result.milestone.id,
+                  name: result.milestone.name,
+                  status: result.milestone.status,
+                  progress: Math.round(result.milestone.progress * 100),
+                  targetDate: result.milestone.targetDate,
+                  projectName: result.milestone.projectName,
+                  description: result.milestone.description,
+                },
+                null,
+                2,
+              );
+            }
+            break;
+          }
+          case "delete": {
+            const result = await deleteProjectMilestone(client, {
+              milestoneId:
+                typeof params.milestoneId === "string"
+                  ? params.milestoneId
+                  : undefined,
+            });
+            details = result.error
+              ? { action: params.action, error: result.error }
+              : { action: params.action, deleted: result.deleted };
+            if (result.deleted)
+              text = `Deleted milestone ${String(params.milestoneId ?? "")}.`;
+            break;
+          }
+          default:
+            details = {
+              action: params.action,
+              error: `Unknown action: ${params.action}`,
+            };
+        }
+
+        if (details.error) {
+          return {
+            content: [{ type: "text", text: `Error: ${details.error}` }],
+            details,
+          };
+        }
+
         return {
-          content: [{ type: "text", text: `Error: ${details.error}` }],
+          content: [
+            {
+              type: "text",
+              text: await prepareToolText(
+                text || "Done.",
+                "linear_project_milestones",
+              ),
+            },
+          ],
           details,
         };
-      }
-
-      return {
-        content: [{ type: "text", text: text || "Done." }],
-        details,
-      };
-    },
-    renderCall(args: ProjectMilestonesParamsType, theme: Theme) {
-      return new Text(
-        `${theme.fg("accent", "Linear Project Milestones")} ${String(args.action ?? "")}`,
-        0,
-        0,
-      );
-    },
-    renderResult(result) {
-      const text = result.content[0];
-      return new Text(
-        text?.type === "text" && text.text ? text.text : "Done.",
-        0,
-        0,
-      );
-    },
-  });
+      },
+      renderCall(args: ProjectMilestonesParamsType, theme: Theme) {
+        return new Text(
+          `${theme.fg("accent", "Linear Project Milestones")} ${String(args.action ?? "")}`,
+          0,
+          0,
+        );
+      },
+      renderResult(
+        result: AgentToolResult<ProjectMilestonesDetails>,
+        options: ToolRenderResultOptions,
+        theme: Theme,
+      ) {
+        if (options.isPartial) {
+          return new Text(
+            theme.fg("muted", "Linear project milestones running..."),
+            0,
+            0,
+          );
+        }
+        const text = result.content[0];
+        return new Text(
+          text?.type === "text" && text.text ? text.text : "Done.",
+          0,
+          0,
+        );
+      },
+    }),
+  );
 }

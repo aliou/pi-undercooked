@@ -2,7 +2,7 @@ import { Wizard, type WizardStep } from "@aliou/pi-utils-settings";
 import type {
   ExtensionAPI,
   ExtensionCommandContext,
-} from "@mariozechner/pi-coding-agent";
+} from "@earendil-works/pi-coding-agent";
 import { getLinearClient } from "../client";
 import {
   type BrowserListItem,
@@ -79,7 +79,7 @@ export function registerLinearBrowser(pi: ExtensionAPI): void {
         return;
       }
 
-      await ctx.ui.custom<null>((tui, theme, _kb, done) => {
+      const opened = await ctx.ui.custom<null>((tui, theme, _kb, done) => {
         const steps: WizardStep[] = [
           {
             label: "Issues",
@@ -198,6 +198,13 @@ export function registerLinearBrowser(pi: ExtensionAPI): void {
           minContentHeight: 16,
         });
       });
+
+      if (opened === undefined) {
+        ctx.ui.notify(
+          "linear:browse requires interactive TUI mode.",
+          "warning",
+        );
+      }
     },
   });
 }
