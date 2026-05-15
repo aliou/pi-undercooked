@@ -26,7 +26,7 @@ export function buildGuidance(config: ResolvedLinearConfig): string {
   return `
 # Linear
 
-This extension provides tools to interact with Linear issues, projects, milestones, documents, teams, and team states.
+This extension provides tools to interact with Linear issues, projects, milestones, documents, teams, people, and team states.
 
 ## Available Tools
 
@@ -36,7 +36,8 @@ This extension provides tools to interact with Linear issues, projects, mileston
 - linear_project_milestones: Manage project milestones
 - linear_documents: Manage Linear documents
 - linear_teams: List teams in the workspace
-- linear_team_states: List team workflow states
+- linear_people: List workspace people to resolve assignee IDs
+- linear_team_states: List team workflow states to resolve state IDs
 
 ## Workspace Context
 
@@ -46,6 +47,7 @@ ${workspaceSummary}
 
 - Use issue identifiers like ENG-123 when you have them.
 - Prefer scoped list/search requests by team, state, assignee, project, or label.
+- Before issue create/update with assignment or workflow state, use linear_people and linear_team_states and then pass assigneeId/stateId.
 - For updates, pass only the fields that should change.
 - For projects, prefer status, lead, and team filters when listing.
 - Use linear_project_milestones for milestone CRUD and issue milestone assignment by ID or name when working with project planning.
