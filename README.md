@@ -1,4 +1,4 @@
-![banner](https://assets.aliou.me/pi-extensions/banners/pi-linear.png)
+![banner](https://assets.aliou.me/github/aliou/pi-linear/banner.png)
 
 # @aliou/pi-linear
 
