@@ -23,7 +23,8 @@
       "extensions/poc-proof-bridge/index.ts",
       "extensions/pi-osc-progress/index.ts",
       "extensions/pi-init/src/index.ts",
-      "extensions/pi-the-dumb-zone/index.ts"
+      "extensions/pi-the-dumb-zone/index.ts",
+      "extensions/pi-dashboard/index.ts"
     ]
   },
   "dependencies": {
