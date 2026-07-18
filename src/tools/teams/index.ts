@@ -2,9 +2,7 @@ import { ToolBody, ToolCallHeader, ToolFooter } from "@aliou/pi-utils-ui";
 import { StringEnum } from "@earendil-works/pi-ai";
 import type {
   AgentToolResult,
-  AgentToolUpdateCallback,
   ExtensionAPI,
-  ExtensionContext,
   Theme,
   ToolRenderResultOptions,
 } from "@earendil-works/pi-coding-agent";
@@ -94,11 +92,11 @@ export function registerTeamsTool(pi: ExtensionAPI) {
       executionMode: "sequential",
 
       async execute(
-        _toolCallId: string,
-        params: TeamsParamsType,
-        _signal: AbortSignal | undefined,
-        onUpdate: AgentToolUpdateCallback<TeamsDetails> | undefined,
-        _ctx: ExtensionContext,
+        _toolCallId,
+        params,
+        _signal,
+        onUpdate,
+        _ctx,
       ): Promise<ExecuteResult> {
         const client = getLinearClient();
         if (!client) {
@@ -152,6 +150,10 @@ export function registerTeamsTool(pi: ExtensionAPI) {
         options: ToolRenderResultOptions,
         theme: Theme,
       ) {
+        if (options.isPartial) {
+          return new Text(theme.fg("muted", "Linear teams running..."), 0, 0);
+        }
+
         const { details } = result;
 
         if (!details) {

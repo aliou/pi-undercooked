@@ -1,9 +1,8 @@
+import { ToolCallHeader } from "@aliou/pi-utils-ui";
 import { StringEnum } from "@earendil-works/pi-ai";
 import type {
   AgentToolResult,
-  AgentToolUpdateCallback,
   ExtensionAPI,
-  ExtensionContext,
   Theme,
   ToolRenderResultOptions,
 } from "@earendil-works/pi-coding-agent";
@@ -43,11 +42,11 @@ export function registerPeopleTool(pi: ExtensionAPI) {
       parameters: PeopleParams,
       executionMode: "sequential",
       async execute(
-        _toolCallId: string,
-        params: PeopleParamsType,
-        _signal: AbortSignal | undefined,
-        onUpdate: AgentToolUpdateCallback<PeopleDetails> | undefined,
-        _ctx: ExtensionContext,
+        _toolCallId,
+        params,
+        _signal,
+        onUpdate,
+        _ctx,
       ): Promise<AgentToolResult<PeopleDetails>> {
         const client = getLinearClient();
         if (!client) {
@@ -93,7 +92,10 @@ export function registerPeopleTool(pi: ExtensionAPI) {
         };
       },
       renderCall(_args: PeopleParamsType, theme: Theme) {
-        return new Text(theme.fg("accent", "Linear People: list"), 0, 0);
+        return new ToolCallHeader(
+          { toolName: "Linear People", action: "List" },
+          theme,
+        );
       },
       renderResult(
         result: AgentToolResult<PeopleDetails>,
@@ -102,6 +104,9 @@ export function registerPeopleTool(pi: ExtensionAPI) {
       ) {
         if (options.isPartial) {
           return new Text(theme.fg("muted", "Linear people running..."), 0, 0);
+        }
+        if (result.details?.error) {
+          return new Text(theme.fg("error", result.details.error), 0, 0);
         }
         const text = result.content[0];
         return new Text(

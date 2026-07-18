@@ -1,9 +1,8 @@
+import { ToolCallHeader } from "@aliou/pi-utils-ui";
 import { StringEnum } from "@earendil-works/pi-ai";
 import type {
   AgentToolResult,
-  AgentToolUpdateCallback,
   ExtensionAPI,
-  ExtensionContext,
   Theme,
   ToolRenderResultOptions,
 } from "@earendil-works/pi-coding-agent";
@@ -48,11 +47,11 @@ export function registerTeamStatesTool(pi: ExtensionAPI) {
       parameters: TeamStatesParams,
       executionMode: "sequential",
       async execute(
-        _toolCallId: string,
-        params: TeamStatesParamsType,
-        _signal: AbortSignal | undefined,
-        onUpdate: AgentToolUpdateCallback<TeamStatesDetails> | undefined,
-        _ctx: ExtensionContext,
+        _toolCallId,
+        params,
+        _signal,
+        onUpdate,
+        _ctx,
       ): Promise<AgentToolResult<TeamStatesDetails>> {
         const client = getLinearClient();
         if (!client) {
@@ -98,7 +97,10 @@ export function registerTeamStatesTool(pi: ExtensionAPI) {
         };
       },
       renderCall(_args: TeamStatesParamsType, theme: Theme) {
-        return new Text(theme.fg("accent", "Linear Team States: list"), 0, 0);
+        return new ToolCallHeader(
+          { toolName: "Linear Team States", action: "List" },
+          theme,
+        );
       },
       renderResult(
         result: AgentToolResult<TeamStatesDetails>,
@@ -111,6 +113,9 @@ export function registerTeamStatesTool(pi: ExtensionAPI) {
             0,
             0,
           );
+        }
+        if (result.details?.error) {
+          return new Text(theme.fg("error", result.details.error), 0, 0);
         }
         const text = result.content[0];
         return new Text(

@@ -1,9 +1,7 @@
 import { ToolBody, ToolCallHeader } from "@aliou/pi-utils-ui";
 import type {
   AgentToolResult,
-  AgentToolUpdateCallback,
   ExtensionAPI,
-  ExtensionContext,
   Theme,
   ToolRenderResultOptions,
 } from "@earendil-works/pi-coding-agent";
@@ -57,11 +55,11 @@ export function registerIssueStartTool(pi: ExtensionAPI) {
       executionMode: "sequential",
 
       async execute(
-        _toolCallId: string,
-        params: Params,
-        signal: AbortSignal | undefined,
-        _onUpdate: AgentToolUpdateCallback<IssueStartDetails> | undefined,
-        ctx: ExtensionContext,
+        _toolCallId,
+        params,
+        signal,
+        _onUpdate,
+        ctx,
       ): Promise<ExecuteResult> {
         const result = await runIssueStart(pi, ctx, params, signal);
         return {
@@ -91,6 +89,14 @@ export function registerIssueStartTool(pi: ExtensionAPI) {
         options: ToolRenderResultOptions,
         theme: Theme,
       ) {
+        if (options.isPartial) {
+          return new Text(
+            theme.fg("muted", "Linear issue start running..."),
+            0,
+            0,
+          );
+        }
+
         const details = result.details;
         const fallbackText = result.content[0];
 

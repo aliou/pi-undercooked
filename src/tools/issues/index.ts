@@ -2,9 +2,7 @@ import { ToolBody, ToolCallHeader, ToolFooter } from "@aliou/pi-utils-ui";
 import { StringEnum } from "@earendil-works/pi-ai";
 import type {
   AgentToolResult,
-  AgentToolUpdateCallback,
   ExtensionAPI,
-  ExtensionContext,
   Theme,
   ToolRenderResultOptions,
 } from "@earendil-works/pi-coding-agent";
@@ -272,11 +270,11 @@ export function registerIssuesTool(pi: ExtensionAPI) {
       executionMode: "sequential",
 
       async execute(
-        _toolCallId: string,
-        params: IssuesParamsType,
-        _signal: AbortSignal | undefined,
-        onUpdate: AgentToolUpdateCallback<IssuesDetails> | undefined,
-        _ctx: ExtensionContext,
+        _toolCallId,
+        params,
+        _signal,
+        onUpdate,
+        _ctx,
       ): Promise<ExecuteResult> {
         const client = getLinearClient();
         if (!client) {
@@ -617,6 +615,10 @@ export function registerIssuesTool(pi: ExtensionAPI) {
         options: ToolRenderResultOptions,
         theme: Theme,
       ) {
+        if (options.isPartial) {
+          return new Text(theme.fg("muted", "Linear issues running..."), 0, 0);
+        }
+
         const { details } = result;
         const fallbackText = result.content[0];
 

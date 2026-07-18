@@ -1,9 +1,8 @@
+import { ToolCallHeader } from "@aliou/pi-utils-ui";
 import { StringEnum } from "@earendil-works/pi-ai";
 import type {
   AgentToolResult,
-  AgentToolUpdateCallback,
   ExtensionAPI,
-  ExtensionContext,
   Theme,
   ToolRenderResultOptions,
 } from "@earendil-works/pi-coding-agent";
@@ -76,11 +75,11 @@ export function registerProjectMilestonesTool(pi: ExtensionAPI) {
       parameters: ProjectMilestonesParams,
       executionMode: "sequential",
       async execute(
-        _toolCallId: string,
-        params: ProjectMilestonesParamsType,
-        _signal: AbortSignal | undefined,
-        onUpdate: AgentToolUpdateCallback<ProjectMilestonesDetails> | undefined,
-        _ctx: ExtensionContext,
+        _toolCallId,
+        params,
+        _signal,
+        onUpdate,
+        _ctx,
       ): Promise<AgentToolResult<ProjectMilestonesDetails>> {
         const client = getLinearClient();
         if (!client) {
@@ -283,10 +282,13 @@ export function registerProjectMilestonesTool(pi: ExtensionAPI) {
         };
       },
       renderCall(args: ProjectMilestonesParamsType, theme: Theme) {
-        return new Text(
-          `${theme.fg("accent", "Linear Project Milestones")} ${String(args.action ?? "")}`,
-          0,
-          0,
+        return new ToolCallHeader(
+          {
+            toolName: "Linear Project Milestones",
+            action: args.action,
+            mainArg: args.name ?? args.milestoneId ?? args.projectId,
+          },
+          theme,
         );
       },
       renderResult(
@@ -300,6 +302,9 @@ export function registerProjectMilestonesTool(pi: ExtensionAPI) {
             0,
             0,
           );
+        }
+        if (result.details?.error) {
+          return new Text(theme.fg("error", result.details.error), 0, 0);
         }
         const text = result.content[0];
         return new Text(

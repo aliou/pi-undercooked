@@ -29,7 +29,7 @@
   ],
   "dependencies": {
     "@aliou/pi-utils-settings": "^0.15.1",
-    "@aliou/pi-utils-ui": "^0.4.1",
+    "@aliou/pi-utils-ui": "^0.5.0",
     "@aliou/sh": "^0.1.0",
     "@linear/sdk": "^77.0.0"
   },
@@ -47,17 +47,17 @@
     "ts-json-schema-generator": "^2.4.0",
     "typescript": "^5.9.3",
     "vitest": "^4.0.18",
-    "@earendil-works/pi-ai": "0.74.0",
-    "@earendil-works/pi-coding-agent": "0.74.0",
-    "@earendil-works/pi-tui": "0.74.0",
-    "typebox": "1.1.24"
+    "@earendil-works/pi-ai": "0.80.10",
+    "@earendil-works/pi-coding-agent": "0.80.10",
+    "@earendil-works/pi-tui": "0.80.10",
+    "typebox": "1.1.38"
   },
   "pnpm": {
     "overrides": {
       "@earendil-works/pi-ai": "$@earendil-works/pi-coding-agent",
       "@earendil-works/pi-tui": "$@earendil-works/pi-coding-agent",
       "@earendil-works/pi-agent-core": "$@earendil-works/pi-coding-agent",
-      "typebox": "1.1.24"
+      "typebox": "1.1.38"
     }
   },
   "scripts": {

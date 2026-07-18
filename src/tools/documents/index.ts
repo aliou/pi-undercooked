@@ -1,9 +1,8 @@
+import { ToolCallHeader } from "@aliou/pi-utils-ui";
 import { StringEnum } from "@earendil-works/pi-ai";
 import type {
   AgentToolResult,
-  AgentToolUpdateCallback,
   ExtensionAPI,
-  ExtensionContext,
   Theme,
   ToolRenderResultOptions,
 } from "@earendil-works/pi-coding-agent";
@@ -64,11 +63,11 @@ export function registerDocumentsTool(pi: ExtensionAPI) {
       parameters: DocumentsParams,
       executionMode: "sequential",
       async execute(
-        _toolCallId: string,
-        params: DocumentsParamsType,
-        _signal: AbortSignal | undefined,
-        onUpdate: AgentToolUpdateCallback<DocumentsDetails> | undefined,
-        _ctx: ExtensionContext,
+        _toolCallId,
+        params,
+        _signal,
+        onUpdate,
+        _ctx,
       ): Promise<AgentToolResult<DocumentsDetails>> {
         const client = getLinearClient();
         if (!client) {
@@ -226,10 +225,13 @@ export function registerDocumentsTool(pi: ExtensionAPI) {
         };
       },
       renderCall(args: DocumentsParamsType, theme: Theme) {
-        return new Text(
-          `${theme.fg("accent", "Linear Documents")} ${String(args.action ?? "")}`,
-          0,
-          0,
+        return new ToolCallHeader(
+          {
+            toolName: "Linear Documents",
+            action: args.action,
+            mainArg: args.title ?? args.id,
+          },
+          theme,
         );
       },
       renderResult(
@@ -244,6 +246,11 @@ export function registerDocumentsTool(pi: ExtensionAPI) {
             0,
           );
         }
+
+        if (result.details?.error) {
+          return new Text(theme.fg("error", result.details.error), 0, 0);
+        }
+
         const text = result.content[0];
         return new Text(
           text?.type === "text" && text.text ? text.text : "Done.",
