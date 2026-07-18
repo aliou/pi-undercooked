@@ -3,11 +3,11 @@ import type {
   ExtensionCommandContext,
 } from "@earendil-works/pi-coding-agent";
 import { Text } from "@earendil-works/pi-tui";
-import { getLinearClient } from "../client";
+import { getLinearClient } from "../../../src/client";
+import { listIssues } from "../../../src/tools/issues/actions/list";
+import { serializeIssue } from "../../../src/tools/issues/serialize";
+import type { SerializedIssue } from "../../../src/tools/issues/types";
 import { runIssueStart } from "../issue-start/run";
-import { listIssues } from "../tools/issues/actions/list";
-import { serializeIssue } from "../tools/issues/serialize";
-import type { SerializedIssue } from "../tools/issues/types";
 import { StartIssuePickerComponent } from "./start-picker-component";
 
 interface StartContextPayload {

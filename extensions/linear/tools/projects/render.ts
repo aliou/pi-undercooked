@@ -1,7 +1,7 @@
 import { getMarkdownTheme, type Theme } from "@earendil-works/pi-coding-agent";
 import type { Component } from "@earendil-works/pi-tui";
 import { Markdown, Spacer, Text } from "@earendil-works/pi-tui";
-import type { SerializedProject } from "./types";
+import type { SerializedProject } from "../../../../src/tools/projects/types";
 
 /**
  * Multi-line expanded representation of a project (name + description shown separately).

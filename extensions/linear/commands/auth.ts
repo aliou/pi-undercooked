@@ -3,13 +3,13 @@ import type {
   ExtensionAPI,
   ExtensionCommandContext,
 } from "@earendil-works/pi-coding-agent";
-import { clearClients } from "../client";
+import { clearClients } from "../../../src/client";
+import { clearTeamCache } from "../../../src/teams";
 import {
   configLoader,
   type LinearConfig,
   type WorkspaceProfile,
 } from "../config";
-import { clearTeamCache } from "../teams";
 import { runAuthWizard } from "./auth-wizard";
 
 function cloneScopeConfig(scope: Scope): LinearConfig {

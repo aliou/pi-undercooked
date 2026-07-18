@@ -9,19 +9,32 @@ import type {
 import { defineTool } from "@earendil-works/pi-coding-agent";
 import { type Component, Spacer, Text } from "@earendil-works/pi-tui";
 import { type Static, Type } from "typebox";
-import { getLinearClient, LINEAR_CREDENTIALS_ERROR } from "../../client";
+import { getLinearClient } from "../../../../src/client";
+import {
+  type CreateProjectParams,
+  createProject,
+} from "../../../../src/tools/projects/actions/create";
+import {
+  type ListProjectsParams,
+  listProjects,
+} from "../../../../src/tools/projects/actions/list";
+import { createProjectRelation } from "../../../../src/tools/projects/actions/relation-create";
+import { deleteProjectRelation } from "../../../../src/tools/projects/actions/relation-delete";
+import { updateProjectRelation } from "../../../../src/tools/projects/actions/relation-update";
+import { listProjectRelations } from "../../../../src/tools/projects/actions/relations-list";
+import {
+  type ShowProjectParams,
+  showProject,
+} from "../../../../src/tools/projects/actions/show";
+import {
+  type UpdateProjectParams,
+  updateProject,
+} from "../../../../src/tools/projects/actions/update";
+import type { SerializedProjectRelation } from "../../../../src/tools/projects/milestone-types";
+import type { SerializedProject } from "../../../../src/tools/projects/types";
+import { LINEAR_CREDENTIALS_ERROR } from "../../config";
 import { prepareToolText } from "../output";
-import { type CreateProjectParams, createProject } from "./actions/create";
-import { type ListProjectsParams, listProjects } from "./actions/list";
-import { createProjectRelation } from "./actions/relation-create";
-import { deleteProjectRelation } from "./actions/relation-delete";
-import { updateProjectRelation } from "./actions/relation-update";
-import { listProjectRelations } from "./actions/relations-list";
-import { type ShowProjectParams, showProject } from "./actions/show";
-import { type UpdateProjectParams, updateProject } from "./actions/update";
-import type { SerializedProjectRelation } from "./milestone-types";
 import { renderProjectExpanded } from "./render";
-import type { SerializedProject } from "./types";
 
 const actionValues = [
   "show",

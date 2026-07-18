@@ -9,14 +9,15 @@ import type {
 import { defineTool } from "@earendil-works/pi-coding-agent";
 import { Text } from "@earendil-works/pi-tui";
 import { type Static, Type } from "typebox";
-import { getLinearClient, LINEAR_CREDENTIALS_ERROR } from "../../client";
+import { getLinearClient } from "../../../../src/client";
+import { createProjectMilestone } from "../../../../src/tools/projects/actions/milestone-create";
+import { deleteProjectMilestone } from "../../../../src/tools/projects/actions/milestone-delete";
+import { showProjectMilestone } from "../../../../src/tools/projects/actions/milestone-show";
+import { updateProjectMilestone } from "../../../../src/tools/projects/actions/milestone-update";
+import { listProjectMilestones } from "../../../../src/tools/projects/actions/milestones-list";
+import type { SerializedProjectMilestone } from "../../../../src/tools/projects/milestone-types";
+import { LINEAR_CREDENTIALS_ERROR } from "../../config";
 import { prepareToolText } from "../output";
-import { createProjectMilestone } from "../projects/actions/milestone-create";
-import { deleteProjectMilestone } from "../projects/actions/milestone-delete";
-import { showProjectMilestone } from "../projects/actions/milestone-show";
-import { updateProjectMilestone } from "../projects/actions/milestone-update";
-import { listProjectMilestones } from "../projects/actions/milestones-list";
-import type { SerializedProjectMilestone } from "../projects/milestone-types";
 
 const ProjectMilestonesParams = Type.Object({
   action: StringEnum(["list", "show", "create", "update", "delete"], {

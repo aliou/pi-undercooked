@@ -3,7 +3,7 @@ import type {
   ExtensionAPI,
   ExtensionCommandContext,
 } from "@earendil-works/pi-coding-agent";
-import { getLinearClient } from "../client";
+import { getLinearClient } from "../../../src/client";
 import {
   type BrowserListItem,
   BrowserTabListComponent,

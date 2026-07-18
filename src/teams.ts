@@ -1,5 +1,4 @@
 import type { LinearClient } from "@linear/sdk";
-import { configLoader } from "./config";
 
 interface TeamEntry {
   id: string;
@@ -9,8 +8,22 @@ interface TeamEntry {
 
 const cachedTeamsByWorkspace = new Map<string, TeamEntry[]>();
 
+export interface LinearTeamConfiguration {
+  activeWorkspace?: string;
+  defaultTeamKey?: string;
+}
+
+let getConfiguration: () => LinearTeamConfiguration = () => ({});
+
+export function configureTeamCache(
+  resolver: () => LinearTeamConfiguration,
+): void {
+  getConfiguration = resolver;
+  clearTeamCache();
+}
+
 function getCacheKey(workspace?: string): string {
-  const activeWorkspace = workspace ?? configLoader.getConfig().activeWorkspace;
+  const activeWorkspace = workspace ?? getConfiguration().activeWorkspace;
   return activeWorkspace ? `workspace:${activeWorkspace}` : "env";
 }
 
@@ -80,7 +93,7 @@ export async function resolveTeamId(
       ?.id;
   }
 
-  const defaultTeamKey = configLoader.getConfig().defaultTeamKey;
+  const defaultTeamKey = getConfiguration().defaultTeamKey;
   if (defaultTeamKey) {
     return teams.find(
       (t) => t.key.toLowerCase() === defaultTeamKey.toLowerCase(),

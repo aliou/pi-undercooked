@@ -6,14 +6,14 @@ import {
 } from "@aliou/pi-utils-settings";
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import type { Component, SettingsListTheme } from "@earendil-works/pi-tui";
-import { clearClients } from "../client";
+import { clearClients } from "../../../src/client";
+import { clearTeamCache } from "../../../src/teams";
 import {
   configLoader,
   type LinearConfig,
   type ResolvedLinearConfig,
   type WorkspaceProfile,
 } from "../config";
-import { clearTeamCache } from "../teams";
 import { createAuthWizardComponent } from "./auth-wizard";
 
 function cloneConfig(base: LinearConfig | null): LinearConfig {

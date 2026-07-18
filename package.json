@@ -16,13 +16,14 @@
   },
   "pi": {
     "extensions": [
-      "./src/index.ts"
+      "./extensions/linear/index.ts"
     ]
   },
   "publishConfig": {
     "access": "public"
   },
   "files": [
+    "extensions",
     "src",
     "schema.json",
     "README.md"
@@ -64,8 +65,8 @@
     "typecheck": "tsc --noEmit",
     "lint": "biome check",
     "format": "biome check --write",
-    "gen:schema": "ts-json-schema-generator --path src/config.ts --type LinearConfig --no-type-check -o schema.json",
-    "check:schema": "ts-json-schema-generator --path src/config.ts --type LinearConfig --no-type-check -o /tmp/schema-check.json && diff -q schema.json /tmp/schema-check.json",
+    "gen:schema": "ts-json-schema-generator --path extensions/linear/config.ts --type LinearConfig --no-type-check -o schema.json",
+    "check:schema": "ts-json-schema-generator --path extensions/linear/config.ts --type LinearConfig --no-type-check -o /tmp/schema-check.json && diff -q schema.json /tmp/schema-check.json",
     "check:lockfile": "pnpm install --frozen-lockfile --ignore-scripts",
     "prepare": "[ -d .git ] && husky || true"
   },

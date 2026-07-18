@@ -9,10 +9,14 @@ import type {
 import { defineTool } from "@earendil-works/pi-coding-agent";
 import { type Component, Spacer, Text } from "@earendil-works/pi-tui";
 import { type Static, Type } from "typebox";
-import { getLinearClient, LINEAR_CREDENTIALS_ERROR } from "../../client";
+import { getLinearClient } from "../../../../src/client";
+import {
+  type ListTeamsParams,
+  listTeams,
+} from "../../../../src/tools/teams/actions/list";
+import type { SerializedTeam } from "../../../../src/tools/teams/types";
+import { LINEAR_CREDENTIALS_ERROR } from "../../config";
 import { prepareToolText } from "../output";
-import { type ListTeamsParams, listTeams } from "./actions/list";
-import type { SerializedTeam } from "./types";
 
 const COLLAPSED_MAX = 5;
 

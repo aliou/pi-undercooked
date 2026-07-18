@@ -5,7 +5,7 @@ import {
   truncateToWidth,
   visibleWidth,
 } from "@earendil-works/pi-tui";
-import type { SerializedIssue } from "../tools/issues/types";
+import type { SerializedIssue } from "../../../src/tools/issues/types";
 import {
   createPanelPadder,
   renderPanelRule,

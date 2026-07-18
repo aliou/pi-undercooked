@@ -2,10 +2,14 @@ import type {
   ExtensionAPI,
   ExtensionContext,
 } from "@earendil-works/pi-coding-agent";
-import { getLinearClient, LINEAR_CREDENTIALS_ERROR } from "../client";
-import { configLoader, type StartDecisionMode } from "../config";
-import { serializeIssue } from "../tools/issues/serialize";
-import type { SerializedIssue } from "../tools/issues/types";
+import { getLinearClient } from "../../../src/client";
+import { serializeIssue } from "../../../src/tools/issues/serialize";
+import type { SerializedIssue } from "../../../src/tools/issues/types";
+import {
+  configLoader,
+  LINEAR_CREDENTIALS_ERROR,
+  type StartDecisionMode,
+} from "../config";
 
 export interface IssueStartParams {
   id: string;

@@ -3,7 +3,7 @@ import {
   ConfigLoader,
   type Migration,
 } from "@aliou/pi-utils-settings";
-import pkg from "../package.json" with { type: "json" };
+import pkg from "../../package.json" with { type: "json" };
 
 export interface WorkspaceProfile {
   /** Linear API key for this workspace. */
@@ -123,3 +123,21 @@ export const configLoader = new ConfigLoader<
     };
   },
 });
+
+export function hasLinearCredentials(): boolean {
+  const config = configLoader.getConfig();
+  if (process.env.LINEAR_API_KEY) return true;
+  return Object.values(config.workspaces).some(
+    (workspace) => !!workspace.apiKey,
+  );
+}
+
+export const LINEAR_CREDENTIALS_ERROR = [
+  "Linear API key not configured. Set it via:",
+  "",
+  "  1. /linear:auth command",
+  "  2. /linear:settings command",
+  "  3. Environment variable: export LINEAR_API_KEY=lin_api_...",
+  "",
+  "Get a key at: https://linear.app/settings/api",
+].join("\n");

@@ -9,14 +9,15 @@ import type {
 import { defineTool } from "@earendil-works/pi-coding-agent";
 import { Text } from "@earendil-works/pi-tui";
 import { type Static, Type } from "typebox";
-import { getLinearClient, LINEAR_CREDENTIALS_ERROR } from "../../client";
+import { getLinearClient } from "../../../../src/client";
+import { createDocument } from "../../../../src/tools/documents/actions/create";
+import { deleteDocument } from "../../../../src/tools/documents/actions/delete";
+import { listDocuments } from "../../../../src/tools/documents/actions/list";
+import { showDocument } from "../../../../src/tools/documents/actions/show";
+import { updateDocument } from "../../../../src/tools/documents/actions/update";
+import type { SerializedLinearDocument } from "../../../../src/tools/documents/types";
+import { LINEAR_CREDENTIALS_ERROR } from "../../config";
 import { prepareToolText } from "../output";
-import { createDocument } from "./actions/create";
-import { deleteDocument } from "./actions/delete";
-import { listDocuments } from "./actions/list";
-import { showDocument } from "./actions/show";
-import { updateDocument } from "./actions/update";
-import type { SerializedLinearDocument } from "./types";
 
 const DocumentsParams = Type.Object({
   action: StringEnum(["list", "show", "create", "update", "delete"], {

@@ -1,7 +1,7 @@
 import { getMarkdownTheme, type Theme } from "@earendil-works/pi-coding-agent";
 import type { Component } from "@earendil-works/pi-tui";
 import { Markdown, Spacer, Text } from "@earendil-works/pi-tui";
-import type { SerializedIssue } from "./types";
+import type { SerializedIssue } from "../../../../src/tools/issues/types";
 
 /** Multi-line expanded representation of an issue (title shown separately). */
 export function renderIssueExpanded(

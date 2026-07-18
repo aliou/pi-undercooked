@@ -9,10 +9,14 @@ import type {
 import { defineTool } from "@earendil-works/pi-coding-agent";
 import { Text } from "@earendil-works/pi-tui";
 import { type Static, Type } from "typebox";
-import { getLinearClient, LINEAR_CREDENTIALS_ERROR } from "../../client";
+import { getLinearClient } from "../../../../src/client";
+import {
+  type ListPeopleParams,
+  listPeople,
+} from "../../../../src/tools/people/actions/list";
+import type { SerializedPerson } from "../../../../src/tools/people/types";
+import { LINEAR_CREDENTIALS_ERROR } from "../../config";
 import { prepareToolText } from "../output";
-import { type ListPeopleParams, listPeople } from "./actions/list";
-import type { SerializedPerson } from "./types";
 
 const PeopleParams = Type.Object({
   action: StringEnum(["list"], {

@@ -12,13 +12,13 @@ import {
 import type { Component, SettingsListTheme } from "@earendil-works/pi-tui";
 import { Input, Key, matchesKey } from "@earendil-works/pi-tui";
 import { LinearClient } from "@linear/sdk";
-import { clearClients } from "../client";
+import { clearClients } from "../../../src/client";
+import { clearTeamCache } from "../../../src/teams";
 import {
   configLoader,
   type LinearConfig,
   type WorkspaceProfile,
 } from "../config";
-import { clearTeamCache } from "../teams";
 
 interface WorkspaceAuthInfo {
   workspaceKey: string;

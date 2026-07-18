@@ -10,6 +10,6 @@
     "resolveJsonModule": true,
     "noEmit": true
   },
-  "include": ["src/**/*"],
+  "include": ["extensions/**/*", "src/**/*"],
   "exclude": ["node_modules"]
 }

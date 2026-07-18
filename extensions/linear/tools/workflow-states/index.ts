@@ -9,10 +9,11 @@ import type {
 import { defineTool } from "@earendil-works/pi-coding-agent";
 import { Text } from "@earendil-works/pi-tui";
 import { type Static, Type } from "typebox";
-import { getLinearClient, LINEAR_CREDENTIALS_ERROR } from "../../client";
+import { getLinearClient } from "../../../../src/client";
+import { listWorkflowStates } from "../../../../src/tools/workflow-states/actions/list";
+import type { SerializedWorkflowState } from "../../../../src/tools/workflow-states/types";
+import { LINEAR_CREDENTIALS_ERROR } from "../../config";
 import { prepareToolText } from "../output";
-import { listWorkflowStates } from "./actions/list";
-import type { SerializedWorkflowState } from "./types";
 
 const TeamStatesParams = Type.Object({
   action: StringEnum(["list"], {

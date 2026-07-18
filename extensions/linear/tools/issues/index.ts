@@ -9,32 +9,48 @@ import type {
 import { defineTool } from "@earendil-works/pi-coding-agent";
 import { type Component, Spacer, Text } from "@earendil-works/pi-tui";
 import { type Static, Type } from "typebox";
-import { getLinearClient, LINEAR_CREDENTIALS_ERROR } from "../../client";
-import { prepareToolText } from "../output";
-import { createIssueAttachment } from "./actions/attachment-create";
-import { listIssueAttachments } from "./actions/attachments-list";
-import { createIssueComment } from "./actions/comment-create";
-import { deleteIssueComment } from "./actions/comment-delete";
-import { updateIssueComment } from "./actions/comment-update";
-import { listIssueComments } from "./actions/comments-list";
-import { type CreateIssueParams, createIssue } from "./actions/create";
-import { listIssueDocuments } from "./actions/documents-list";
-import { type ListIssuesParams, listIssues } from "./actions/list";
-import { createIssueRelation } from "./actions/relation-create";
-import { deleteIssueRelation } from "./actions/relation-delete";
-import { updateIssueRelation } from "./actions/relation-update";
-import { listIssueRelations } from "./actions/relations-list";
-import { type SearchIssuesParams, searchIssues } from "./actions/search";
-import { type ShowIssueParams, showIssue } from "./actions/show";
-import { type UpdateIssueParams, updateIssue } from "./actions/update";
-import { renderIssueChildren, renderIssueExpanded } from "./render";
+import { getLinearClient } from "../../../../src/client";
+import { createIssueAttachment } from "../../../../src/tools/issues/actions/attachment-create";
+import { listIssueAttachments } from "../../../../src/tools/issues/actions/attachments-list";
+import { createIssueComment } from "../../../../src/tools/issues/actions/comment-create";
+import { deleteIssueComment } from "../../../../src/tools/issues/actions/comment-delete";
+import { updateIssueComment } from "../../../../src/tools/issues/actions/comment-update";
+import { listIssueComments } from "../../../../src/tools/issues/actions/comments-list";
+import {
+  type CreateIssueParams,
+  createIssue,
+} from "../../../../src/tools/issues/actions/create";
+import { listIssueDocuments } from "../../../../src/tools/issues/actions/documents-list";
+import {
+  type ListIssuesParams,
+  listIssues,
+} from "../../../../src/tools/issues/actions/list";
+import { createIssueRelation } from "../../../../src/tools/issues/actions/relation-create";
+import { deleteIssueRelation } from "../../../../src/tools/issues/actions/relation-delete";
+import { updateIssueRelation } from "../../../../src/tools/issues/actions/relation-update";
+import { listIssueRelations } from "../../../../src/tools/issues/actions/relations-list";
+import {
+  type SearchIssuesParams,
+  searchIssues,
+} from "../../../../src/tools/issues/actions/search";
+import {
+  type ShowIssueParams,
+  showIssue,
+} from "../../../../src/tools/issues/actions/show";
+import {
+  type UpdateIssueParams,
+  updateIssue,
+} from "../../../../src/tools/issues/actions/update";
 import type {
   SerializedAttachment,
   SerializedComment,
   SerializedDocument,
   SerializedIssue,
   SerializedIssueRelation,
-} from "./types";
+} from "../../../../src/tools/issues/types";
+import { LINEAR_CREDENTIALS_ERROR } from "../../config";
+import { prepareToolText } from "../output";
+import { renderIssueChildren, renderIssueExpanded } from "./render";
 
 const actionValues = [
   "show",
