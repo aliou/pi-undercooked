@@ -1,0 +1,20 @@
+{
+  "name": "pi-cool-extension",
+  "version": "0.0.1",
+  "type": "module",
+  "private": true,
+  "keywords": [
+    "pi-package",
+    "pi-extension"
+  ],
+  "pi": {
+    "extensions": [
+      "./index.ts"
+    ]
+  },
+  "devDependencies": {
+    "@mariozechner/pi-coding-agent": "0.61.0",
+    "@mariozechner/pi-tui": "0.61.0",
+    "@sinclair/typebox": "^0.34.41"
+  }
+}
