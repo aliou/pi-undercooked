@@ -1,10 +1,10 @@
 {
-  "name": "@aliou/pi-playdate",
+  "name": "@aliou/pi-undercooked-pi-playdate",
   "version": "0.1.0",
   "description": "Develop Playdate games using the Playdate SDK from pi",
   "license": "MIT",
   "type": "module",
-  "private": false,
+  "private": true,
   "keywords": [
     "pi-package",
     "pi-extension",
@@ -12,10 +12,6 @@
     "playdate",
     "game-development"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/aliou/pi-playdate"
-  },
   "pi": {
     "extensions": [
       "./src/index.ts"
@@ -23,9 +19,6 @@
     "skills": [
       "./skills/playdate"
     ]
-  },
-  "publishConfig": {
-    "access": "public"
   },
   "files": [
     "src",

@@ -7,11 +7,14 @@ A collection of Pi extensions and integrations that are proof-of-concept, not ye
 | Extension | Description |
 |---|---|
 | `pi-apple-fm-provider` | Provider for Apple Foundation Models via on-device inference |
+| `pi-cool-extension` | Minimal test extension for trying out tool/update behavior |
 | `pi-crit` | Code review tool backed by Crit |
 | `pi-excel` | Reading, querying, and updating Excel files |
 | `pi-evals` | Local eval framework for the Pi coding agent |
-| `pi-flowdeck` | iOS development tools via Flowdeck |
+| `pi-flowdeck` | Apple platform build/run/test/simulator/device automation via the FlowDeck CLI |
+| `pi-linear` | Linear integration via the Linear SDK (issues, projects, people) |
 | `pi-output-style` | Configurable output style presets |
+| `pi-playdate` | Develop Playdate games using the Playdate SDK |
 | `pi-xcode` | Xcode project, build, and simulator management |
 | `pi-osc-progress` | Terminal progress bar via OSC 9;4 (iTerm2, Ghostty) |
 | `pi-init` | Interactive Pi bootstrap: AGENTS.md, .agents/skills, hooks extension, and `init_questionnaire` tool |

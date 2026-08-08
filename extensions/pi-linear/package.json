@@ -1,26 +1,19 @@
 {
-  "name": "@aliou/pi-linear",
+  "name": "@aliou/pi-undercooked-pi-linear",
   "version": "0.2.0",
   "license": "MIT",
   "type": "module",
-  "private": false,
+  "private": true,
   "keywords": [
     "pi-package",
     "pi-extension",
     "pi",
     "linear"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/aliou/pi-linear"
-  },
   "pi": {
     "extensions": [
       "./extensions/linear/index.ts"
     ]
-  },
-  "publishConfig": {
-    "access": "public"
   },
   "files": [
     "extensions",
