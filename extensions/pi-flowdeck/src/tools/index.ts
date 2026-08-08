@@ -1,34 +1,29 @@
-import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
-import { registerFlowdeckAppsTool } from "./apps";
-import { registerFlowdeckBuildTool } from "./build";
-import { registerFlowdeckCleanTool } from "./clean";
-import { registerFlowdeckConfigTool } from "./config";
-import { registerFlowdeckContextTool } from "./context";
-import { registerDeviceTool } from "./device";
-import { registerFlowdeckLogsTool } from "./logs";
-import { registerFlowdeckProjectTool } from "./project";
-import { registerFlowdeckToolRoot } from "./root";
-import { registerFlowdeckRunTool } from "./run";
-import { registerSimulatorTool } from "./simulator";
-import { registerFlowdeckStopTool } from "./stop";
-import { registerFlowdeckTestTool } from "./test";
-import { registerUiTool } from "./ui";
-import { registerFlowdeckUninstallTool } from "./uninstall";
+import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
+import { configLoader } from "../config";
+import buildExtension from "./build";
+import configExtension from "./config";
+import deviceExtension from "./device";
+import projectExtension from "./project";
+import runExtension from "./run";
+import sessionExtension from "./session";
+import simulatorExtension from "./simulator";
+import testExtension from "./test";
+import uiMacExtension from "./ui-mac";
+import uiSimulatorExtension from "./ui-simulator";
 
-export function registerTools(pi: ExtensionAPI) {
-  registerFlowdeckToolRoot(pi);
-  registerFlowdeckContextTool(pi);
-  registerFlowdeckConfigTool(pi);
-  registerFlowdeckBuildTool(pi);
-  registerFlowdeckRunTool(pi);
-  registerFlowdeckTestTool(pi);
-  registerFlowdeckCleanTool(pi);
-  registerFlowdeckAppsTool(pi);
-  registerFlowdeckLogsTool(pi);
-  registerFlowdeckStopTool(pi);
-  registerFlowdeckUninstallTool(pi);
-  registerFlowdeckProjectTool(pi);
-  registerSimulatorTool(pi);
-  registerUiTool(pi);
-  registerDeviceTool(pi);
+export default async function toolsExtension(pi: ExtensionAPI) {
+  await configLoader.load();
+  const config = configLoader.getConfig();
+  if (!config.enabled) return;
+
+  await buildExtension(pi);
+  await runExtension(pi);
+  await testExtension(pi);
+  await projectExtension(pi);
+  await configExtension(pi);
+  await simulatorExtension(pi);
+  await deviceExtension(pi);
+  await sessionExtension(pi);
+  await uiSimulatorExtension(pi);
+  await uiMacExtension(pi);
 }

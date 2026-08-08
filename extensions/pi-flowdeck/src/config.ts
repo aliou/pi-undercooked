@@ -1,34 +1,33 @@
 import { buildSchemaUrl, ConfigLoader } from "@aliou/pi-utils-settings";
 import pkg from "../package.json" with { type: "json" };
 
-export interface FlowdeckPiExtensionConfig {
+/**
+ * Raw config shape (what gets saved to disk).
+ * All fields optional -- only overrides are stored.
+ */
+export interface FlowDeckConfig {
   /** Enable or disable the extension. */
   enabled?: boolean;
-  /** FlowDeck executable name (from PATH) or custom relative/absolute path. */
-  flowdeckExecutable?: string;
-  /** Default timeout in seconds for FlowDeck tools. */
-  defaultTimeoutSeconds?: number;
-  /** Inject FlowDeck usage guidance into the system prompt. */
-  systemPromptGuidance?: boolean;
+  /** Path to the flowdeck binary. Defaults to "flowdeck" (resolved from PATH). */
+  binaryPath?: string;
 }
 
-export interface ResolvedFlowdeckPiExtensionConfig {
+/**
+ * Resolved config (defaults merged in).
+ */
+export interface ResolvedFlowDeckConfig {
   enabled: boolean;
-  flowdeckExecutable: string;
-  defaultTimeoutSeconds: number;
-  systemPromptGuidance: boolean;
+  binaryPath: string;
 }
 
-const DEFAULTS: ResolvedFlowdeckPiExtensionConfig = {
+const DEFAULTS: ResolvedFlowDeckConfig = {
   enabled: true,
-  flowdeckExecutable: "flowdeck",
-  defaultTimeoutSeconds: 300,
-  systemPromptGuidance: true,
+  binaryPath: "flowdeck",
 };
 
 const schemaUrl = buildSchemaUrl(pkg.name, pkg.version);
 
 export const configLoader = new ConfigLoader<
-  FlowdeckPiExtensionConfig,
-  ResolvedFlowdeckPiExtensionConfig
+  FlowDeckConfig,
+  ResolvedFlowDeckConfig
 >("flowdeck", DEFAULTS, { schemaUrl });

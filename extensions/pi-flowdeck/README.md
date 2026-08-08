@@ -1,80 +1,98 @@
-# pi-flowdeck
+# @aliou/pi-flowdeck
 
-Pi extension + bundled FlowDeck skill pack for Apple project automation.
+Pi extension wrapping the [FlowDeck](https://flowdeck.studio) CLI — the Apple platform build/run/test/simulator/device/UI-automation tool that replaces xcodebuild, xcrun simctl, and all Apple CLIs with structured JSON output.
 
-## Included resources
+## Tools
 
-- Extension: `./src/index.ts`
-- Skills: `./skills/flowdeck` (synced from FlowDeck binary installer output)
+| Tool | Description |
+|---|---|
+| `flowdeck_build` | Build or clean Xcode projects |
+| `flowdeck_run` | Run apps, list running apps, stream logs, stop/uninstall apps |
+| `flowdeck_test` | Run tests, discover tests, list test plans |
+| `flowdeck_project` | Discover project structure, schemes, configs, manage SPM packages |
+| `flowdeck_config` | Check, save, or reset FlowDeck project settings |
+| `flowdeck_simulator` | Simulators, runtimes, and device state (appearance, Dynamic Type, orientation, language, status bar, location, privacy, push) |
+| `flowdeck_device` | List and manage physical Apple devices |
+| `flowdeck_session` | Manage UI automation sessions (start, stop, status, list, set_active) |
+| `flowdeck_ui_simulator` | iOS Simulator UI automation (tap, type, swipe, assert, batch flows) |
+| `flowdeck_ui_mac` | macOS app UI automation (click, type, hotkey, menus, windows) |
 
-## Tools exposed
+Requires FlowDeck 1.25 or newer.
 
-- `flowdeck` (top-level)
-- `flowdeck_context`
-- `flowdeck_config` (actions: `set|get|reset`)
-- `flowdeck_build`
-- `flowdeck_run`
-- `flowdeck_test` (actions: `run|discover|plans`)
-- `flowdeck_clean`
-- `flowdeck_apps`
-- `flowdeck_logs`
-- `flowdeck_stop`
-- `flowdeck_uninstall`
-- `flowdeck_project` (actions for create/schemes/configs/packages/sync_profiles)
-- `flowdeck_simulator` (actions for lifecycle/management/runtime/location/media)
-- `flowdeck_ui` (actions for screen/session/gestures/assertions/input)
-- `flowdeck_device` (actions: `list|install|uninstall|launch`)
+## Sessions
 
-All tools always run in JSON mode.
+FlowDeck sessions are background capture processes that continuously write screenshots and accessibility trees. The `flowdeck_session` tool manages session lifecycle and tracks state in the Pi session.
 
-## FlowDeck executable resolution
+- Start a session before any UI work: `flowdeck_session action=start platform=ios simulator="iPhone 16"`
+- The `simulator` and `app` params on UI tools default to the active session target when omitted
+- Session state persists across compaction and restarts via `pi.appendEntry()`
+- Active sessions are cleaned up when Pi exits
 
-By default, the extension uses `flowdeck` from `PATH`.
+## Keeping UI automation cheap
 
-You can override with config if needed (for local binary path):
+The accessibility tree is the source of truth. Screenshots are attached only for
+the `screen` and `session_start` actions, or when you pass `screenshot=true`.
 
-```json
-{
-  "flowdeckExecutable": ".flowdeck-cli/flowdeck"
-}
-```
+Three options cut context use further:
 
-## License check
+| Option | Effect |
+|---|---|
+| `action=batch` | Runs a whole flow in one call and returns only the final tree |
+| `interactiveElements=true` | Returns only actionable elements instead of the full tree |
+| `sinceHash=<hash>` | Returns `unchanged` when the screen has not moved since that capture |
 
-On `session_start`, extension runs:
+## Error output
 
-- `flowdeck license status --json`
-- fallback `.flowdeck-cli/flowdeck license status --json` when available
+When a FlowDeck command fails, the tool returns the parsed error message, the
+command line, the exit code, and the tail of both stdout and stderr. Build and
+test failures include the Xcode diagnostics and the FlowDeck build log path.
 
-If status is not active, extension emits warning.
-
-## System prompt guidance
-
-By default, extension injects FlowDeck usage guidance during `before_agent_start` so models prefer these tools over raw shell commands for FlowDeck workflows.
-Disable with `systemPromptGuidance: false`.
-
-## Install local binary (optional)
+## Installation
 
 ```bash
-pnpm install:flowdeck-local
+pi install @aliou/pi-flowdeck
 ```
 
-## Sync bundled skills from binary
+Requires the [FlowDeck CLI](https://flowdeck.studio) installed and in PATH.
 
-```bash
-pnpm sync:flowdeck-skills
+## Configuration
+
+Stored at `~/.pi/agent/extensions/flowdeck.json`.
+
+| Setting | Default | Description |
+|---|---|---|
+| `enabled` | `true` | Enable or disable the extension |
+| `binaryPath` | `"flowdeck"` | Path to the flowdeck binary |
+
+## Architecture
+
+```
+src/
+  flowdeck/          # Pi-free domain layer
+    client.ts        # FlowDeckClient - command execution
+    parser.ts        # JSON output parsing
+    types.ts         # Domain result types
+    session-state.ts # Session state types and reducer
+    registry.ts      # Shared in-memory session registry
+  tools/             # Pi tool wrappers
+    components/      # Shared TUI components (ToolLayout, ActionHeader, fields)
+    args.ts          # CLI argument builders
+    schema.ts        # TypeBox parameter schemas
+    create-client.ts # Client factory from pi.exec
+    session/         # flowdeck_session tool (state owner)
+    build/           # flowdeck_build tool
+    run/             # flowdeck_run tool
+    test/            # flowdeck_test tool
+    project/         # flowdeck_project tool
+    config/          # flowdeck_config tool
+    simulator/       # flowdeck_simulator tool
+    device/          # flowdeck_device tool
+    ui-simulator/    # flowdeck_ui_simulator tool (reads session state)
+    ui-mac/          # flowdeck_ui_mac tool (reads session state)
+  hooks/             # before_agent_start guidance injection
+  config.ts          # Extension configuration
 ```
 
-## Extension config
+## License
 
-Path: `~/.pi/agent/extensions/flowdeck.json`
-
-```json
-{
-  "$schema": "https://schemas.aliou.me/@aliou/pi-flowdeck/0.0.1/schema.json",
-  "enabled": true,
-  "flowdeckExecutable": "flowdeck",
-  "defaultTimeoutSeconds": 300,
-  "systemPromptGuidance": true
-}
-```
+MIT

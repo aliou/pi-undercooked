@@ -42,6 +42,9 @@ flowdeck test -w App.xcworkspace -s MyApp -S "iPhone 16" --json
 # Verbose output with xcodebuild output
 flowdeck test -w App.xcworkspace -s MyApp -S "iPhone 16" --verbose
 
+# Show usage examples
+flowdeck test --examples
+
 # Pass xcodebuild options (coverage, parallel testing, etc.)
 flowdeck test -w App.xcworkspace -s MyApp -S "iPhone 16" --xcodebuild-options='-enableCodeCoverage YES'
 flowdeck test -w App.xcworkspace -s MyApp -S "iPhone 16" --xcodebuild-options='-parallel-testing-enabled YES'
@@ -73,6 +76,9 @@ flowdeck test -w App.xcworkspace -s MyApp -S "iPhone 16" --xcodebuild-env='CI=tr
 | `-c, --config <path>` | Path to JSON config file |
 | `-j, --json` | Output as JSON |
 | `-v, --verbose` | Show raw xcodebuild test output |
+| `-e, --examples` | Show usage examples |
+
+On failure: the CLI prints the extracted reason and a `Full log: <path>` line. Read that file instead of rerunning with `--verbose`.
 
 **Test Filtering:**
 The `--only` option supports:
@@ -104,6 +110,9 @@ flowdeck test discover -w App.xcworkspace -s MyScheme --filter Login
 
 # Include tests skipped in the scheme or test plan
 flowdeck test discover -w App.xcworkspace -s MyScheme --include-skipped-tests
+
+# Show usage examples
+flowdeck test discover --examples
 ```
 
 **Options:**
@@ -116,6 +125,7 @@ flowdeck test discover -w App.xcworkspace -s MyScheme --include-skipped-tests
 | `-c, --config <path>` | Path to JSON config file (also accepts `--cfg`) |
 | `-j, --json` | Output as JSON |
 | `--include-skipped-tests` | Include tests marked as skipped in the scheme/test plan |
+| `-e, --examples` | Show usage examples |
 
 ---
 
@@ -129,6 +139,9 @@ flowdeck test plans -w App.xcworkspace -s MyScheme
 
 # List plans as JSON (for tooling)
 flowdeck test plans -w App.xcworkspace -s MyScheme --json
+
+# Show usage examples
+flowdeck test plans --examples
 ```
 
 **Options:**

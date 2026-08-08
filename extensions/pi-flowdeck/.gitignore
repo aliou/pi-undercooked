@@ -28,9 +28,6 @@ Thumbs.db
 npm-debug.log*
 pnpm-debug.log*
 
-# Local FlowDeck CLI
-.flowdeck-cli/
-
 # Nix
 .direnv/
 result
