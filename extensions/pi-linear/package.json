@@ -1,0 +1,88 @@
+{
+  "name": "@aliou/pi-linear",
+  "version": "0.2.0",
+  "license": "MIT",
+  "type": "module",
+  "private": false,
+  "keywords": [
+    "pi-package",
+    "pi-extension",
+    "pi",
+    "linear"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aliou/pi-linear"
+  },
+  "pi": {
+    "extensions": [
+      "./extensions/linear/index.ts"
+    ]
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "extensions",
+    "src",
+    "schema.json",
+    "README.md"
+  ],
+  "dependencies": {
+    "@aliou/pi-utils-settings": "^0.15.1",
+    "@aliou/pi-utils-ui": "^0.5.0",
+    "@aliou/sh": "^0.1.0",
+    "@linear/sdk": "^77.0.0"
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-ai": "*",
+    "@earendil-works/pi-coding-agent": "*",
+    "@earendil-works/pi-tui": "*",
+    "typebox": "*"
+  },
+  "devDependencies": {
+    "@aliou/biome-plugins": "^0.6.0",
+    "@biomejs/biome": "^2.3.13",
+    "@types/node": "^25.0.10",
+    "husky": "^9.1.7",
+    "ts-json-schema-generator": "^2.4.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18",
+    "@earendil-works/pi-ai": "0.80.10",
+    "@earendil-works/pi-coding-agent": "0.80.10",
+    "@earendil-works/pi-tui": "0.80.10",
+    "typebox": "1.1.38"
+  },
+  "pnpm": {
+    "overrides": {
+      "@earendil-works/pi-ai": "$@earendil-works/pi-coding-agent",
+      "@earendil-works/pi-tui": "$@earendil-works/pi-coding-agent",
+      "@earendil-works/pi-agent-core": "$@earendil-works/pi-coding-agent",
+      "typebox": "1.1.38"
+    }
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check",
+    "format": "biome check --write",
+    "gen:schema": "ts-json-schema-generator --path extensions/linear/config.ts --type LinearConfig --no-type-check -o schema.json",
+    "check:schema": "ts-json-schema-generator --path extensions/linear/config.ts --type LinearConfig --no-type-check -o /tmp/schema-check.json && diff -q schema.json /tmp/schema-check.json",
+    "check:lockfile": "pnpm install --frozen-lockfile --ignore-scripts",
+    "prepare": "[ -d .git ] && husky || true"
+  },
+  "packageManager": "pnpm@10.26.1",
+  "peerDependenciesMeta": {
+    "@earendil-works/pi-ai": {
+      "optional": true
+    },
+    "@earendil-works/pi-coding-agent": {
+      "optional": true
+    },
+    "@earendil-works/pi-tui": {
+      "optional": true
+    },
+    "typebox": {
+      "optional": true
+    }
+  }
+}

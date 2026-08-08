@@ -1,0 +1,66 @@
+{
+  "$ref": "#/definitions/LinearConfig",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "LinearConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "apiKey": {
+          "description": "Legacy flat API key. Kept for migration detection only.",
+          "type": "string"
+        },
+        "defaultWorkspace": {
+          "description": "Default workspace key to use for tools and defaults.",
+          "type": "string"
+        },
+        "enabled": {
+          "description": "Enable or disable the extension.",
+          "type": "boolean"
+        },
+        "startCreateBranch": {
+          "$ref": "#/definitions/StartDecisionMode",
+          "description": "Whether issue start should create a git branch by default: ask, true, false."
+        },
+        "startUpdateState": {
+          "$ref": "#/definitions/StartDecisionMode",
+          "description": "Whether issue start should update tracker state by default: ask, true, false."
+        },
+        "workspaces": {
+          "additionalProperties": {
+            "$ref": "#/definitions/WorkspaceProfile"
+          },
+          "description": "Workspace profiles keyed by Linear org urlKey.",
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "StartDecisionMode": {
+      "description": "Raw config shape (what gets saved to disk). All fields optional -- only overrides are stored.\n\nJSDoc comments on fields become `description` in the generated JSON Schema. Run `pnpm gen:schema` after changing this interface.",
+      "enum": [
+        "ask",
+        "true",
+        "false"
+      ],
+      "type": "string"
+    },
+    "WorkspaceProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "apiKey": {
+          "description": "Linear API key for this workspace.",
+          "type": "string"
+        },
+        "defaultTeamKey": {
+          "description": "Preferred default team key (e.g. ENG).",
+          "type": "string"
+        },
+        "orgName": {
+          "description": "Human-readable org name.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  }
+}
