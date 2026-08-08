@@ -11,10 +11,14 @@
   },
   "pi": {
     "extensions": [
+      "extensions/pi-cool-extension/index.ts",
       "extensions/pi-crit/src/index.ts",
       "extensions/pi-excel/src/index.ts",
-      "extensions/pi-flowdeck/src/index.ts",
+      "extensions/pi-flowdeck/src/tools/index.ts",
+      "extensions/pi-flowdeck/src/hooks/index.ts",
+      "extensions/pi-linear/extensions/linear/index.ts",
       "extensions/pi-output-style/src/index.ts",
+      "extensions/pi-playdate/src/index.ts",
       "extensions/pi-xcode/src/index.ts",
       "extensions/pi-apple-fm-provider/src/index.ts",
       "extensions/poc-incognito/index.ts",
