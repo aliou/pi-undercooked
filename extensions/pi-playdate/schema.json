@@ -1,0 +1,45 @@
+{
+  "$ref": "#/definitions/PlaydateConfig",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "PlaydateConfig": {
+      "additionalProperties": false,
+      "description": "Raw config shape (what gets saved to disk). All fields optional -- only overrides are stored.\n\nJSDoc comments on fields become `description` in the generated JSON Schema. Run `pnpm gen:schema` after changing this interface.",
+      "properties": {
+        "armToolchainPath": {
+          "description": "Path to arm-none-eabi toolchain (for C builds on Windows/Linux if not auto-detected).",
+          "type": "string"
+        },
+        "autoOpenSimulator": {
+          "description": "Automatically open the simulator after building.",
+          "type": "boolean"
+        },
+        "buildMode": {
+          "description": "Build mode for C projects.",
+          "enum": [
+            "debug",
+            "release"
+          ],
+          "type": "string"
+        },
+        "defaultTarget": {
+          "description": "Default build/run target.",
+          "enum": [
+            "simulator",
+            "device"
+          ],
+          "type": "string"
+        },
+        "sdkPath": {
+          "description": "Override the PLAYDATE_SDK_PATH environment variable.",
+          "type": "string"
+        },
+        "simulatorLogLines": {
+          "description": "Number of simulator log lines to keep in the ring buffer.",
+          "type": "number"
+        }
+      },
+      "type": "object"
+    }
+  }
+}

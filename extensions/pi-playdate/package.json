@@ -1,0 +1,99 @@
+{
+  "name": "@aliou/pi-playdate",
+  "version": "0.1.0",
+  "description": "Develop Playdate games using the Playdate SDK from pi",
+  "license": "MIT",
+  "type": "module",
+  "private": false,
+  "keywords": [
+    "pi-package",
+    "pi-extension",
+    "pi",
+    "playdate",
+    "game-development"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aliou/pi-playdate"
+  },
+  "pi": {
+    "extensions": [
+      "./src/index.ts"
+    ],
+    "skills": [
+      "./skills/playdate"
+    ]
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "src",
+    "skills",
+    "lua",
+    "native",
+    "scripts",
+    "bin",
+    "schema.json",
+    "README.md"
+  ],
+  "dependencies": {
+    "@aliou/pi-utils-settings": "^0.13.0",
+    "@aliou/pi-utils-ui": "^0.2.0",
+    "@sinclair/typebox": "^0.34.41"
+  },
+  "bundledDependencies": [
+    "@aliou/pi-utils-settings",
+    "@aliou/pi-utils-ui"
+  ],
+  "peerDependencies": {
+    "@mariozechner/pi-ai": "*",
+    "@mariozechner/pi-coding-agent": "*",
+    "@mariozechner/pi-tui": "*"
+  },
+  "devDependencies": {
+    "@aliou/biome-plugins": "latest",
+    "@biomejs/biome": "^2.4.12",
+    "@changesets/cli": "^2.27.11",
+    "@mariozechner/pi-ai": "0.66.1",
+    "@mariozechner/pi-coding-agent": "0.66.1",
+    "@mariozechner/pi-tui": "0.66.1",
+    "@types/node": "^25.0.10",
+    "husky": "^9.1.7",
+    "ts-json-schema-generator": "^2.4.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
+  },
+  "pnpm": {
+    "overrides": {
+      "@mariozechner/pi-ai": "$@mariozechner/pi-coding-agent",
+      "@mariozechner/pi-tui": "$@mariozechner/pi-coding-agent"
+    }
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check",
+    "format": "biome check --write",
+    "gen:schema": "ts-json-schema-generator --path src/config.ts --type PlaydateConfig --no-type-check -o schema.json",
+    "check:schema": "ts-json-schema-generator --path src/config.ts --type PlaydateConfig --no-type-check -o /tmp/schema-check.json && diff -q schema.json /tmp/schema-check.json",
+    "check:lockfile": "pnpm install --frozen-lockfile --ignore-scripts",
+    "build:native": "./scripts/build-native-tools.sh",
+    "postinstall": "./scripts/build-native-tools.sh",
+    "prepare": "[ -d .git ] && husky || true",
+    "changeset": "changeset",
+    "version": "changeset version",
+    "release": "pnpm changeset publish"
+  },
+  "packageManager": "pnpm@10.26.1",
+  "peerDependenciesMeta": {
+    "@mariozechner/pi-ai": {
+      "optional": true
+    },
+    "@mariozechner/pi-coding-agent": {
+      "optional": true
+    },
+    "@mariozechner/pi-tui": {
+      "optional": true
+    }
+  }
+}
