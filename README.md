@@ -1,41 +1,31 @@
 # pi-undercooked
 
-A collection of Pi extensions and integrations that are proof-of-concept, not yet usable, or one-off experiments. These projects might be useful for reference but are probably out of date. They live here mainly so they can be required, loaded, or run individually when needed.
+Monorepo of proof-of-concept and one-off Pi packages that are actively being
+tried out. Nothing here is published or considered stable.
 
-## Extensions
+## Packages
 
-| Extension | Description |
+| Package | Description |
 |---|---|
-| `pi-apple-fm-provider` | Provider for Apple Foundation Models via on-device inference |
-| `pi-cool-extension` | Minimal test extension for trying out tool/update behavior |
-| `pi-crit` | Code review tool backed by Crit |
-| `pi-excel` | Reading, querying, and updating Excel files |
-| `pi-evals` | Local eval framework for the Pi coding agent |
-| `pi-flowdeck` | Apple platform build/run/test/simulator/device automation via the FlowDeck CLI |
-| `pi-linear` | Linear integration via the Linear SDK (issues, projects, people) |
-| `pi-output-style` | Configurable output style presets |
-| `pi-playdate` | Develop Playdate games using the Playdate SDK |
-| `pi-xcode` | Xcode project, build, and simulator management |
-| `pi-osc-progress` | Terminal progress bar via OSC 9;4 (iTerm2, Ghostty) |
-| `pi-init` | Interactive Pi bootstrap: AGENTS.md, .agents/skills, hooks extension, and `init_questionnaire` tool |
-| `pi-the-dumb-zone` | Detects when an AI session is degrading and shows a warning overlay |
-| `poc-incognito` | Save sessions to a custom directory |
-| `poc-linkup-company-research` | Company research via Linkup API |
-| `poc-playwriter` | Browser automation via Playwriter |
-| `poc-proof-bridge` | Local collaboration via Proof bridge |
+| `nurb` | Tooling around the nurb CLI (agentic CAD for 3D printing): pi extension + skill |
 
-Most entries here are Pi runtime extensions with their own `package.json` and a `pi` key pointing to the entry file. `pi-evals` is a local tooling package kept here with the other experiments.
+## Archive
 
-## Integrations
+`archive/` holds extensions and integrations that are no longer maintained:
+`pi-cool-extension`, `pi-crit`, `pi-flowdeck`, `pi-linear`, `pi-playdate`,
+`pi-the-dumb-zone`, `pi-xcode`, `poc-linkup-company-research`,
+`poc-proof-bridge`, and the `chrome` and `linear` integrations.
 
-| Integration | Description |
-|---|---|
-| `chrome` | Chrome sidepanel integration plus native host bridge for browser automation and sidepanel chat |
-| `linear` | Hono bridge from Linear Agent Sessions to in-process Pi SDK sessions |
-| `neovim` | Bidirectional Neovim integration for Pi |
-
-Integrations are not regular Pi extension packages. They may include bundled Pi extensions, editor plugins, browser extensions, native hosts, or standalone bridge services.
+Archived code is frozen. It is not typechecked, linted, or updated, and exists
+for reference only.
 
 ## Development
 
-Dependencies are managed at the root. Run `pnpm install` from the repo root, then work inside any extension directory.
+Dependencies are managed per package via the pnpm workspace. Run
+`pnpm install` from the repo root, then work inside any package directory.
+
+```sh
+pnpm install
+pnpm test        # runs tests across packages
+pnpm typecheck   # typechecks across packages
+```

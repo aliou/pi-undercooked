@@ -11,90 +11,21 @@
   },
   "pi": {
     "extensions": [
-      "extensions/pi-cool-extension/index.ts",
-      "extensions/pi-crit/src/index.ts",
-      "extensions/pi-excel/src/index.ts",
-      "extensions/pi-flowdeck/src/tools/index.ts",
-      "extensions/pi-flowdeck/src/hooks/index.ts",
-      "extensions/pi-linear/extensions/linear/index.ts",
-      "extensions/pi-output-style/src/index.ts",
-      "extensions/pi-playdate/src/index.ts",
-      "extensions/pi-xcode/src/index.ts",
-      "extensions/pi-apple-fm-provider/src/index.ts",
-      "extensions/poc-incognito/index.ts",
-      "extensions/poc-linkup-company-research/src/index.ts",
-      "extensions/poc-playwriter/index.ts",
-      "extensions/poc-proof-bridge/index.ts",
-      "extensions/pi-osc-progress/index.ts",
-      "extensions/pi-init/src/index.ts",
-      "extensions/pi-the-dumb-zone/index.ts",
-      "extensions/pi-dashboard/index.ts"
+      "packages/nurb/extensions/nurb/index.ts"
+    ],
+    "skills": [
+      "packages/nurb/skills/nurb-pi"
     ]
-  },
-  "dependencies": {
-    "@aliou/pi-utils-settings": "^0.9.0",
-    "@aliou/pi-utils-ui": "^0.1.0",
-    "@aliou/sh": "^0.1.0",
-    "@e965/xlsx": "^0.20.3",
-    "glob": "^13.0.6",
-    "gray-matter": "^4.0.3",
-    "playwriter": "^0.0.63",
-    "tsfm-sdk": "^0.3.1"
-  },
-  "peerDependencies": {
-    "@mariozechner/pi-agent-core": ">=0.69.0",
-    "@mariozechner/pi-ai": ">=0.69.0",
-    "@mariozechner/pi-coding-agent": ">=0.69.0",
-    "@mariozechner/pi-tui": ">=0.69.0",
-    "typebox": ">=1.0.0"
-  },
-  "peerDependenciesMeta": {
-    "@mariozechner/pi-coding-agent": {
-      "optional": true
-    },
-    "@mariozechner/pi-agent-core": {
-      "optional": true
-    },
-    "@mariozechner/pi-ai": {
-      "optional": true
-    },
-    "@mariozechner/pi-tui": {
-      "optional": true
-    },
-    "typebox": {
-      "optional": true
-    }
   },
   "devDependencies": {
-    "@aliou/biome-plugins": "^0.3.2",
-    "@biomejs/biome": "^2.4.2",
-    "@mariozechner/pi-agent-core": "0.69.0",
-    "@mariozechner/pi-ai": "0.69.0",
-    "@mariozechner/pi-coding-agent": "0.69.0",
-    "@mariozechner/pi-tui": "0.69.0",
-    "typebox": "^1.0.0",
     "@types/node": "^25.0.10",
-    "tsup": "^8.5.1",
-    "tsx": "^4.21.0",
-    "typescript": "^5.9.3",
-    "vitest": "^4.0.18"
-  },
-  "pnpm": {
-    "overrides": {
-      "@mariozechner/pi-agent-core": "$@mariozechner/pi-coding-agent",
-      "@mariozechner/pi-ai": "$@mariozechner/pi-coding-agent",
-      "@mariozechner/pi-tui": "$@mariozechner/pi-coding-agent"
-    },
-    "onlyBuiltDependencies": [
-      "@aliou/sh",
-      "koffi",
-      "protobufjs"
-    ]
+    "typescript": "^5.9.3"
   },
   "scripts": {
-    "typecheck": "tsc --noEmit",
-    "lint": "biome check",
-    "format": "biome check --write"
+    "typecheck": "pnpm -r typecheck",
+    "lint": "pnpm -r lint",
+    "format": "pnpm -r format",
+    "test": "pnpm -r test"
   },
-  "packageManager": "pnpm@10.26.1"
+  "packageManager": "pnpm@11.5.1"
 }
