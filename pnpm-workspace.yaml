@@ -7,5 +7,6 @@ overrides:
   "@earendil-works/pi-agent-core": "$@earendil-works/pi-coding-agent"
 
 allowBuilds:
+  '@google/genai': false
   esbuild: true
   protobufjs: true
